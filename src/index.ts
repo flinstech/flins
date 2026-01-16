@@ -23,9 +23,11 @@ interface UpdateOptions {
 }
 
 interface RemoveOptions {
-  global?: boolean;
-  agent?: string[];
   yes?: boolean;
+}
+
+interface StatusOptions {
+  verbose?: boolean;
 }
 
 program
@@ -53,15 +55,14 @@ program
 program
   .command('status [skills...]')
   .description('Check status of installed skills (updates available, orphaned, etc.)')
-  .action(async (skills: string[]) => {
-    await statusCommand(skills);
+  .option('-v, --verbose', 'Show detailed information including installation paths')
+  .action(async (skills: string[], options: StatusOptions) => {
+    await statusCommand(skills, options);
   });
 
 program
   .command('remove [skills...]')
   .description('Remove installed skills')
-  .option('-g, --global', 'Remove from global location only')
-  .option('-a, --agent <agents...>', 'Remove from specific agents only')
   .option('-y, --yes', 'Skip confirmation prompts')
   .action(async (skills: string[], options: RemoveOptions) => {
     await removeCommand(skills, options);
@@ -84,7 +85,6 @@ program
 program.parse();
 
 async function main(source: string, options: Options) {
-  console.log();
   p.intro(pc.bgCyan(pc.black(' give-skill ')));
 
   try {
@@ -105,7 +105,6 @@ async function main(source: string, options: Options) {
 }
 
 async function updateCommand(skills: string[], options: UpdateOptions) {
-  console.log();
   p.intro(pc.bgCyan(pc.black(' give-skill ')));
 
   try {
@@ -117,13 +116,13 @@ async function updateCommand(skills: string[], options: UpdateOptions) {
   }
 }
 
-async function statusCommand(skills: string[]) {
-  console.log();
+async function statusCommand(skills: string[], options: StatusOptions = {}) {
   p.intro(pc.bgCyan(pc.black(' give-skill ')));
 
   try {
     const results = await checkStatus(skills.length > 0 ? skills : undefined);
-    await displayStatus(results);
+    const verbose = options.verbose || (skills.length > 0);
+    await displayStatus(results, verbose);
     p.outro('Done!');
   } catch (error) {
     p.log.error(error instanceof Error ? error.message : 'Unknown error occurred');
@@ -133,7 +132,6 @@ async function statusCommand(skills: string[]) {
 }
 
 async function removeCommand(skills: string[], options: RemoveOptions) {
-  console.log();
   p.intro(pc.bgCyan(pc.black(' give-skill ')));
 
   try {
@@ -146,7 +144,6 @@ async function removeCommand(skills: string[], options: RemoveOptions) {
 }
 
 async function listCommand() {
-  console.log();
   p.intro(pc.bgCyan(pc.black(' give-skill ')));
 
   try {
@@ -160,12 +157,10 @@ async function listCommand() {
 }
 
 async function cleanCommand() {
-  console.log();
   p.intro(pc.bgCyan(pc.black(' give-skill ')));
 
   try {
     await cleanOrphanedService();
-    console.log();
     p.outro(pc.green('Done!'));
   } catch (error) {
     p.log.error(error instanceof Error ? error.message : 'Unknown error occurred');

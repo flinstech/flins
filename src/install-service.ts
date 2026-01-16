@@ -60,13 +60,11 @@ export async function performInstallation(
     context.spinner.stop(`Found ${pc.green(skills.length)} skill${skills.length > 1 ? 's' : ''}`);
 
     if (options.list) {
-      console.log();
       p.log.step(pc.bold('Available Skills'));
       for (const skill of skills) {
         p.log.message(`  ${pc.cyan(getSkillDisplayName(skill))}`);
         p.log.message(`    ${pc.dim(skill.description)}`);
       }
-      console.log();
       p.outro('Use --skill <name> to install specific skills');
       return { success: true, installed: 0, failed: 0, results: [] };
     }
@@ -276,7 +274,6 @@ async function showSummaryAndConfirm(
   targetAgents: AgentType[],
   installGlobally: boolean
 ): Promise<boolean> {
-  console.log();
   p.log.step(pc.bold('Installation Summary'));
 
   for (const skill of selectedSkills) {
@@ -288,7 +285,6 @@ async function showSummaryAndConfirm(
       p.log.message(`    ${pc.dim('→')} ${agents[agent].displayName}: ${pc.dim(path)}${status}`);
     }
   }
-  console.log();
 
   if (!options.yes) {
     const confirmed = await p.confirm({ message: 'Proceed with installation?' });
@@ -361,19 +357,16 @@ async function performParallelInstall(
     }
   }
 
-  console.log();
   const successful = results.filter(r => r.success);
   const failed = results.filter(r => !r.success);
 
   if (branchChanges.size > 0) {
-    console.log();
     for (const [skillName, { previous, current }] of branchChanges) {
       p.log.warn(pc.yellow(`  ${pc.cyan(skillName)}: ${pc.dim(previous)} → ${pc.green(current)}`));
     }
   }
 
   if (successful.length > 0) {
-    console.log();
     p.log.success(pc.green(`Successfully installed ${successful.length} skill${successful.length !== 1 ? 's' : ''}`));
     for (const r of successful) {
       p.log.message(`  ${pc.green('✓')} ${r.skill} → ${r.agent}`);
@@ -382,7 +375,6 @@ async function performParallelInstall(
   }
 
   if (failed.length > 0) {
-    console.log();
     p.log.error(pc.red(`Failed to install ${failed.length} skill${failed.length !== 1 ? 's' : ''}`));
     for (const r of failed) {
       p.log.message(`  ${pc.red('✗')} ${r.skill} → ${r.agent}`);
@@ -390,7 +382,6 @@ async function performParallelInstall(
     }
   }
 
-  console.log();
   p.outro(pc.green('Done!'));
 
   return {

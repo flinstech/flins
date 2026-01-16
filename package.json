@@ -1,6 +1,6 @@
 {
   "name": "give-skill",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Universal skill installer for AI coding agents - Claude, Cursor, Copilot, and more",
   "type": "module",
   "bin": {

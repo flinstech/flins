@@ -1,6 +1,7 @@
 import { homedir } from 'os';
 import { join } from 'path';
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
+import { isValidSkillInstallation } from './utils.js';
 import type { StateFile, SkillState, SkillInstallation, AgentType } from './types.js';
 
 const STATE_DIR = join(homedir(), '.give-skill');
@@ -143,7 +144,7 @@ export async function cleanOrphanedEntries(): Promise<void> {
         const path = installation.type === 'global'
           ? installation.path
           : join(process.cwd(), installation.path);
-        if (existsSync(path)) {
+        if (isValidSkillInstallation(path)) {
           validInstallations.push(installation);
         }
       } catch {

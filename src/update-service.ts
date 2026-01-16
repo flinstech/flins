@@ -1,19 +1,13 @@
 import * as p from '@clack/prompts';
 import pc from 'picocolors';
-import { existsSync } from 'fs';
-import { join, resolve } from 'path';
+import { join } from 'path';
 import { cloneRepo, cleanupTempDir, getLatestCommit, getCommitHash } from './git.js';
 import { discoverSkills } from './skills.js';
 import { installSkillForAgent } from './installer.js';
 import { getAllSkills, updateSkillCommit, removeSkillInstallation, cleanOrphanedEntries } from './state.js';
 import { agents } from './agents.js';
-import type { SkillState, SkillInstallation } from './types.js';
-
-function resolveInstallationPath(installation: SkillInstallation): string {
-  return installation.type === 'global'
-    ? installation.path
-    : resolve(process.cwd(), installation.path);
-}
+import { isValidSkillInstallation, resolveInstallationPath, showNoSkillsMessage, Plural } from './utils.js';
+import type { SkillState } from './types.js';
 
 interface StatusResult {
   skillName: string;
@@ -38,7 +32,7 @@ async function checkSkillUpdate(skillName: string, skillState: SkillState): Prom
     return {
       agent: agents[inst.agent].displayName,
       path: resolvedPath,
-      exists: existsSync(resolvedPath),
+      exists: isValidSkillInstallation(resolvedPath),
     };
   });
 
@@ -107,7 +101,7 @@ export async function checkStatus(skillNames?: string[]): Promise<StatusResult[]
     spinner.stop(result.status === 'latest' ? pc.green('Up to date') : pc.yellow('Update available'));
     results.push(result);
   } else {
-    spinner.start(`Checking ${skillsToCheck.length} skill${skillsToCheck.length > 1 ? 's' : ''}...`);
+    spinner.start(`Checking ${skillsToCheck.length} ${Plural(skillsToCheck.length, 'skill')}...`);
     for (const { skillName, state: skillState } of skillsToCheck) {
       const result = await checkSkillUpdate(skillName, skillState);
       results.push(result);
@@ -156,7 +150,6 @@ export async function performUpdate(skillNames?: string[], options: { yes?: bool
     return [];
   }
 
-  console.log();
   p.log.step(pc.bold('Updates Available'));
 
   const updateChoices = skillsWithUpdates.map(r => ({
@@ -185,7 +178,6 @@ export async function performUpdate(skillNames?: string[], options: { yes?: bool
     selectedToUpdate = selected as string[];
   }
 
-  console.log();
   p.log.step(pc.bold('Will Update'));
   for (const skillName of selectedToUpdate) {
     const result = skillsWithUpdates.find(r => r.skillName === skillName);
@@ -194,7 +186,6 @@ export async function performUpdate(skillNames?: string[], options: { yes?: bool
       p.log.message(`    ${pc.dim('Current:')} ${pc.yellow(result.currentCommit.slice(0, 7))} ${pc.dim('→')} ${pc.green(result.latestCommit.slice(0, 7))}`);
     }
   }
-  console.log();
 
   if (!options.yes) {
     const confirmed = await p.confirm({ message: 'Proceed with update?' });
@@ -205,7 +196,7 @@ export async function performUpdate(skillNames?: string[], options: { yes?: bool
   }
 
   const spinner = p.spinner();
-  spinner.start(`Updating ${selectedToUpdate.length} skill${selectedToUpdate.length > 1 ? 's' : ''}...`);
+  spinner.start(`Updating ${selectedToUpdate.length} ${Plural(selectedToUpdate.length, 'skill')}...`);
 
   for (const { skillName, state: skillState } of skillsToUpdate) {
     const statusResult = statusResults.find(r => r.skillName === skillName);
@@ -242,7 +233,7 @@ export async function performUpdate(skillNames?: string[], options: { yes?: bool
 
       for (const installation of skillState.installations) {
         const resolvedPath = resolveInstallationPath(installation);
-        if (!existsSync(resolvedPath)) {
+        if (!isValidSkillInstallation(resolvedPath)) {
           removeSkillInstallation(skillName, installation.agent, installation.path);
           continue;
         }
@@ -283,20 +274,18 @@ export async function performUpdate(skillNames?: string[], options: { yes?: bool
 
   spinner.stop('Update complete');
 
-  console.log();
   const successful = results.filter(r => r.success && r.updated > 0);
   const failed = results.filter(r => !r.success || r.failed > 0);
 
   if (successful.length > 0) {
-    p.log.success(pc.green(`Updated ${successful.length} skill${successful.length !== 1 ? 's' : ''}`));
+    p.log.success(pc.green(`Updated ${successful.length} ${Plural(successful.length, 'skill')}`));
     for (const r of successful) {
-      p.log.message(`  ${pc.green('✓')} ${pc.cyan(r.skillName)} (${r.updated} installation${r.updated !== 1 ? 's' : ''})`);
+      p.log.message(`  ${pc.green('✓')} ${pc.cyan(r.skillName)} (${r.updated} ${Plural(r.updated, 'installation')})`);
     }
   }
 
   if (failed.length > 0) {
-    console.log();
-    p.log.error(pc.red(`Failed to update ${failed.length} skill${failed.length !== 1 ? 's' : ''}`));
+    p.log.error(pc.red(`Failed to update ${failed.length} ${Plural(failed.length, 'skill')}`));
     for (const r of failed) {
       p.log.message(`  ${pc.red('✗')} ${pc.cyan(r.skillName)}`);
       if (r.error) {
@@ -304,8 +293,6 @@ export async function performUpdate(skillNames?: string[], options: { yes?: bool
       }
     }
   }
-
-  console.log();
 
   if (successful.length > 0) {
     p.outro(pc.green('Done!'));
@@ -316,16 +303,12 @@ export async function performUpdate(skillNames?: string[], options: { yes?: bool
   return results;
 }
 
-export async function displayStatus(statusResults: StatusResult[]): Promise<void> {
+export async function displayStatus(statusResults: StatusResult[], verbose: boolean = false): Promise<void> {
   if (statusResults.length === 0) {
-    p.log.warn('No skills tracked. Install skills with:');
-    console.log();
-    p.log.message(`  ${pc.cyan('npx give-skill <repo>')}`);
-    console.log();
+    showNoSkillsMessage();
     return;
   }
 
-  console.log();
   p.log.step(pc.bold('Skills Status'));
 
   for (const result of statusResults) {
@@ -343,38 +326,47 @@ export async function displayStatus(statusResults: StatusResult[]): Promise<void
       orphaned: pc.dim('orphaned'),
     }[result.status];
 
-    p.log.message(`${statusIcon} ${pc.cyan(result.skillName)}`);
-    p.log.message(`    Status: ${statusText}`);
-
-    if (result.status === 'update-available') {
-      p.log.message(
-        `    ${pc.dim('Commit:')} ${pc.yellow(result.currentCommit.slice(0, 7))} ${pc.dim('→')} ${pc.green(result.latestCommit.slice(0, 7))}`
-      );
-    } else if (result.status === 'latest') {
-      p.log.message(`    ${pc.dim('Commit:')} ${result.currentCommit.slice(0, 7)}`);
-    }
-
-    if (result.error) {
-      p.log.message(`    ${pc.red(result.error)}`);
-    }
-
     const validInstallations = result.installations.filter(i => i.exists);
-    if (validInstallations.length > 0) {
-      p.log.message(`    ${pc.dim('Installed in:')}`);
-      for (const inst of validInstallations) {
-        p.log.message(`      ${pc.dim('•')} ${inst.agent}: ${pc.dim(inst.path)}`);
-      }
-    }
-
     const orphanedInstallations = result.installations.filter(i => !i.exists);
-    if (orphanedInstallations.length > 0) {
-      p.log.message(`    ${pc.yellow('Missing installations:')}`);
-      for (const inst of orphanedInstallations) {
-        p.log.message(`      ${pc.dim('•')} ${inst.agent}: ${pc.dim(inst.path)}`);
+
+    if (!verbose) {
+      const installationCount = validInstallations.length;
+      const countSuffix = installationCount > 0 ? ` (${installationCount} ${Plural(installationCount, 'installation')})` : '';
+      p.log.message(`${statusIcon} ${pc.cyan(result.skillName)}${pc.dim(countSuffix)} - ${statusText}`);
+    } else {
+      p.log.message(`${statusIcon} ${pc.cyan(result.skillName)}`);
+      p.log.message(`    Status: ${statusText}`);
+
+      if (result.status === 'update-available') {
+        p.log.message(
+          `    ${pc.dim('Commit:')} ${pc.yellow(result.currentCommit.slice(0, 7))} ${pc.dim('→')} ${pc.green(result.latestCommit.slice(0, 7))}`
+        );
+      } else if (result.status === 'latest') {
+        p.log.message(`    ${pc.dim('Commit:')} ${result.currentCommit.slice(0, 7)}`);
+      }
+
+      if (result.error) {
+        p.log.message(`    ${pc.red(result.error)}`);
+      }
+
+      if (validInstallations.length > 0) {
+        p.log.message(`    ${pc.dim('Installed in:')}`);
+        for (const inst of validInstallations) {
+          p.log.message(`      ${pc.dim('•')} ${inst.agent}: ${pc.dim(inst.path)}`);
+        }
+      }
+
+      if (orphanedInstallations.length > 0) {
+        p.log.message(`    ${pc.yellow('Missing installations:')}`);
+        for (const inst of orphanedInstallations) {
+          p.log.message(`      ${pc.dim('•')} ${inst.agent}: ${pc.dim(inst.path)}`);
+        }
       }
     }
+  }
 
-    console.log();
+  if (!verbose) {
+    p.log.info(`Use ${pc.cyan('--verbose')} or ${pc.cyan('-v')} for detailed information`);
   }
 }
 

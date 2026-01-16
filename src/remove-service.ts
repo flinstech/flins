@@ -1,16 +1,9 @@
 import * as p from '@clack/prompts';
 import pc from 'picocolors';
 import { existsSync, rmSync } from 'fs';
-import { join, resolve } from 'path';
 import { getAllSkills, removeSkillInstallation } from './state.js';
 import { agents } from './agents.js';
-import type { SkillInstallation } from './types.js';
-
-function resolveInstallationPath(installation: SkillInstallation): string {
-  return installation.type === 'global'
-    ? installation.path
-    : resolve(process.cwd(), installation.path);
-}
+import { isValidSkillInstallation, resolveInstallationPath, showNoSkillsMessage, Plural } from './utils.js';
 
 interface RemoveResult {
   skillName: string;
@@ -21,8 +14,6 @@ interface RemoveResult {
 }
 
 interface RemoveOptions {
-  agent?: string[];
-  global?: boolean;
   yes?: boolean;
 }
 
@@ -45,10 +36,7 @@ export async function performRemove(skillNames: string[] = [], options: RemoveOp
   const results: RemoveResult[] = [];
 
   if (Object.keys(state.skills).length === 0) {
-    p.log.warn('No skills tracked. Install skills with:');
-    console.log();
-    p.log.message(`  ${pc.cyan('npx give-skill <repo>')}`);
-    console.log();
+    showNoSkillsMessage();
     return [];
   }
 
@@ -63,22 +51,20 @@ export async function performRemove(skillNames: string[] = [], options: RemoveOp
     const nameSet = new Set(skillNames.map(n => n.toLowerCase()));
     skillsToRemove = allSkills.filter(({ skillName }) => nameSet.has(skillName.toLowerCase()));
   } else {
-    // No skill names specified - show multiselect of all installed skills
     const allChoices = allSkills.map(({ skillName, state }) => {
       const validInstallations = state.installations
         .map(inst => ({ installation: inst, resolvedPath: resolveInstallationPath(inst) }))
-        .filter(({ resolvedPath }) => existsSync(resolvedPath));
+        .filter(({ resolvedPath }) => isValidSkillInstallation(resolvedPath));
 
       return {
         value: skillName,
         label: skillName,
         hint: validInstallations.length > 0
-          ? `${validInstallations.length} installation${validInstallations.length !== 1 ? 's' : ''}`
+          ? `${validInstallations.length} ${Plural(validInstallations.length, 'installation')}`
           : 'no valid installations',
       };
     });
 
-    // Filter out skills with no valid installations
     const validChoices = allChoices.filter(c => c.hint !== 'no valid installations');
 
     if (validChoices.length === 0) {
@@ -119,27 +105,14 @@ export async function performRemove(skillNames: string[] = [], options: RemoveOp
     return [];
   }
 
-  console.log();
   p.log.step(pc.bold('Skills to Remove'));
 
   const toRemove: Array<{ skillName: string; installations: Array<{ installation: typeof allSkills[0]['state']['installations'][number]; resolvedPath: string }> }> = [];
 
   for (const { skillName, state: skillState } of skillsToRemove) {
-    let installations = skillState.installations;
-
-    if (options.agent && options.agent.length > 0) {
-      const agentSet = new Set(options.agent);
-      installations = installations.filter(i => agentSet.has(i.agent));
-    }
-
-    if (options.global !== undefined) {
-      const scope = options.global ? 'global' : 'project';
-      installations = installations.filter(i => i.type === scope);
-    }
-
-    const validInstallations = installations
+    const validInstallations = skillState.installations
       .map(inst => ({ installation: inst, resolvedPath: resolveInstallationPath(inst) }))
-      .filter(({ resolvedPath }) => existsSync(resolvedPath));
+      .filter(({ resolvedPath }) => isValidSkillInstallation(resolvedPath));
 
     if (validInstallations.length > 0) {
       toRemove.push({ skillName, installations: validInstallations });
@@ -155,7 +128,6 @@ export async function performRemove(skillNames: string[] = [], options: RemoveOp
     return [];
   }
 
-  // Skip second multiselect if we already showed one (no skill names provided)
   const skipSecondMultiselect = skillNames.length === 0;
 
   let selectedToRemove: string[];
@@ -166,7 +138,7 @@ export async function performRemove(skillNames: string[] = [], options: RemoveOp
     const removeChoices = toRemove.map(({ skillName, installations }) => ({
       value: skillName,
       label: skillName,
-      hint: `${installations.length} installation${installations.length !== 1 ? 's' : ''}`,
+      hint: `${installations.length} ${Plural(installations.length, 'installation')}`,
     }));
 
     const selected = await p.multiselect({
@@ -184,7 +156,6 @@ export async function performRemove(skillNames: string[] = [], options: RemoveOp
     selectedToRemove = selected as string[];
   }
 
-  console.log();
   p.log.step(pc.bold('Will Remove'));
   for (const skillName of selectedToRemove) {
     const item = toRemove.find(r => r.skillName === skillName);
@@ -195,7 +166,6 @@ export async function performRemove(skillNames: string[] = [], options: RemoveOp
       }
     }
   }
-  console.log();
 
   if (!options.yes) {
     const confirmed = await p.confirm({ message: 'Remove these skills?' });
@@ -244,21 +214,19 @@ export async function performRemove(skillNames: string[] = [], options: RemoveOp
 
   spinner.stop('Remove complete');
 
-  console.log();
   const successful = results.filter(r => r.success && r.removed > 0);
   const failed = results.filter(r => !r.success || r.failed > 0);
 
   if (successful.length > 0) {
-    p.log.success(pc.green(`Removed ${successful.length} skill${successful.length !== 1 ? 's' : ''}`));
+    p.log.success(pc.green(`Removed ${successful.length} ${Plural(successful.length, 'skill')}`));
     for (const r of successful) {
       p.log.message(`  ${pc.green('✓')} ${pc.cyan(r.skillName)}`);
-      p.log.message(`    ${pc.dim(`${r.removed} installation${r.removed !== 1 ? 's' : ''} removed`)}`);
+      p.log.message(`    ${pc.dim(`${r.removed} ${Plural(r.removed, 'installation')} removed`)}`);
     }
   }
 
   if (failed.length > 0) {
-    console.log();
-    p.log.error(pc.red(`Failed to remove ${failed.length} skill${failed.length !== 1 ? 's' : ''}`));
+    p.log.error(pc.red(`Failed to remove ${failed.length} ${Plural(failed.length, 'skill')}`));
     for (const r of failed) {
       p.log.message(`  ${pc.red('✗')} ${pc.cyan(r.skillName)}`);
       for (const inst of r.installations.filter(i => !i.removed)) {
@@ -269,7 +237,6 @@ export async function performRemove(skillNames: string[] = [], options: RemoveOp
     }
   }
 
-  console.log();
   p.outro(pc.green('Done!'));
 
   return results;
@@ -279,14 +246,10 @@ export async function listRemovableSkills(): Promise<void> {
   const state = getAllSkills();
 
   if (Object.keys(state.skills).length === 0) {
-    p.log.warn('No skills tracked. Install skills with:');
-    console.log();
-    p.log.message(`  ${pc.cyan('npx give-skill <repo>')}`);
-    console.log();
+    showNoSkillsMessage();
     return;
   }
 
-  console.log();
   p.log.step(pc.bold('Installed Skills'));
 
   for (const [skillName, skillState] of Object.entries(state.skills)) {
@@ -294,7 +257,7 @@ export async function listRemovableSkills(): Promise<void> {
 
     const validInstallations = skillState.installations
       .map(inst => ({ installation: inst, resolvedPath: resolveInstallationPath(inst) }))
-      .filter(({ resolvedPath }) => existsSync(resolvedPath));
+      .filter(({ resolvedPath }) => isValidSkillInstallation(resolvedPath));
 
     if (validInstallations.length > 0) {
       p.log.message(`  ${pc.dim('Installed in:')}`);
@@ -303,7 +266,5 @@ export async function listRemovableSkills(): Promise<void> {
         p.log.message(`    ${pc.dim('•')} ${agents[installation.agent].displayName} ${pc.dim(`(${scope})`)}: ${pc.dim(resolvedPath)}`);
       }
     }
-
-    console.log();
   }
 }

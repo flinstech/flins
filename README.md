@@ -84,10 +84,13 @@ npx give-skill expo/skills --list
 # List all installed skills
 npx give-skill list
 
-# Check status of all installed skills
+# Check status of all installed skills (compact view)
 npx give-skill status
 
-# Check status of specific skills
+# Check status with detailed information
+npx give-skill status --verbose
+
+# Check status of specific skills (automatically shows details)
 npx give-skill status pr-reviewer test-generator
 
 # Update all skills with available updates (interactive selection)
@@ -101,12 +104,6 @@ npx give-skill update -y
 
 # Remove specific skills
 npx give-skill remove pr-reviewer
-
-# Remove from specific agent only
-npx give-skill remove pr-reviewer -a claude-code
-
-# Remove global installation only
-npx give-skill remove pr-reviewer --global
 
 # Remove without confirmation (auto-selects all)
 npx give-skill remove -y
@@ -148,8 +145,8 @@ Options:
 
 Commands:
   update [skills...]      Update installed skills to their latest versions
-  status [skills...]      Check status of installed skills (updates available, orphaned, etc.)
-  remove [skills...]      Remove installed skills (interactive if no skills specified)
+  status [skills...]      Check status of installed skills (compact view, use -v for details)
+  remove [skills...]      Remove installed skills (use -y to skip confirmation)
   list                    List all installed skills
   clean                   Remove orphaned skill entries from state
 ```
