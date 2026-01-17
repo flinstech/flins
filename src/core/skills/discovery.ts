@@ -2,7 +2,7 @@ import { readdir, readFile, stat } from 'fs/promises';
 import { join } from 'path';
 import type { Skill } from '../../types/skills.js';
 import { agents } from '../agents/config.js';
-import { parseSkillMd, getSkillDisplayName } from './parser.js';
+import { parseSkillMd } from './parser.js';
 
 const SKIP_DIRS = ['node_modules', '.git', 'dist', 'build', '__pycache__'];
 

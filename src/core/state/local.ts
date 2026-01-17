@@ -1,6 +1,5 @@
-import { homedir } from 'os';
 import { join, resolve } from 'path';
-import { existsSync, readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync, rmSync, readdirSync } from 'fs';
 import type { LocalState, LocalSkillEntry, SkillInstallation, Dirent } from '../../types/state.js';
 import type { AgentType } from '../../types/agents.js';
 import { agents } from '../agents/config.js';

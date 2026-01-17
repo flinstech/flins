@@ -1,5 +1,5 @@
 import { mkdir, cp, access, readdir } from 'fs/promises';
-import { join, basename } from 'path';
+import { join } from 'path';
 
 const EXCLUDE_FILES = new Set([
   'README.md',
