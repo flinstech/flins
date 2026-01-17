@@ -13,7 +13,7 @@
   "scripts": {
     "build": "bun build src/index.ts --outdir dist --target node --minify",
     "dev": "bun src/index.ts",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsgo --noEmit",
     "prepublishOnly": "bun run build"
   },
   "keywords": [
@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "typescript": "^5.9.3"
+    "@typescript/native-preview": "^7.0.0-dev.20260116.1"
   },
   "module": "src/index.ts"
 }
