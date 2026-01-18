@@ -31,9 +31,10 @@ import { CodeBlockCommand } from '@/components/code-block-command'
 import directory from '../directory.json'
 import { zodValidator } from '@tanstack/zod-adapter'
 import { z } from 'zod'
-import { Tooltip, TooltipPopup, TooltipTrigger } from '@/components/ui/tooltip'
 import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard'
 import { Card, CardPanel } from '@/components/ui/card'
+import { Tooltip, TooltipPopup, TooltipTrigger } from '@/components/ui/tooltip'
+import { SUPPORTED_AGENTS } from '@/config/agents'
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -235,9 +236,9 @@ function App() {
           <PlusIcon className="absolute text-muted-foreground bottom-0 left-0 -translate-x-1/2 translate-y-1/2" />
           <PlusIcon className="absolute text-muted-foreground bottom-0 right-0 translate-x-1/2 translate-y-1/2" />
 
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1">
-              <h1 className="text-2xl font-bold">
+          <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-2 text-center max-w-xl mx-auto">
+              <h1 className="text-4xl font-bold">
                 Universal skill package manager for AI coding agents
               </h1>
               <p>
@@ -245,26 +246,31 @@ function App() {
                 tools from one unified interface
               </p>
             </div>
-            <Card>
-              <CardPanel>
-                <p className="text-muted-foreground mb-2">
-                  Quick install from curated list:
-                </p>
-                <code className="text-sm">sena add expo</code>
-                <p className="text-muted-foreground mt-3 mb-2">
-                  Or from any git repository:
-                </p>
-                <div className="flex flex-col gap-1">
-                  <code className="text-sm">sena add github.com/user/repo</code>
-                  <code className="text-sm">
-                    sena add gitlab.com/org/skills
-                  </code>
-                  <code className="text-sm">
-                    sena add any-git-host.com/repo
-                  </code>
-                </div>
-              </CardPanel>
-            </Card>
+            <div className="flex flex-wrap gap-1 justify-center">
+              {SUPPORTED_AGENTS.map((agent) => (
+                <Button
+                  key={agent.name}
+                  size="sm"
+                  variant="outline"
+                  render={
+                    <a
+                      href={agent.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    />
+                  }
+                >
+                  {agent.logo && (
+                    <img
+                      className="size-4"
+                      src={agent.logo}
+                      alt={`${agent.name} Logo`}
+                    />
+                  )}
+                  {agent.name}
+                </Button>
+              ))}
+            </div>
           </div>
 
           <InputGroup className="mt-6 mb-8">
@@ -342,6 +348,22 @@ function App() {
                       </Tooltip>
                     </InputGroupAddon>
                   </InputGroup>
+                </Field>
+                <Field>
+                  <FieldLabel>Quick install from curated list:</FieldLabel>
+                  <code className="text-xs">sena add expo</code>
+                </Field>
+                <Field>
+                  <FieldLabel>Or from any git repository:</FieldLabel>
+                  <div className="flex flex-col gap-1">
+                    <code className="text-xs">sena add user/repo</code>
+                    <code className="text-xs">
+                      sena add gitlab.com/org/skills
+                    </code>
+                    <code className="text-xs">
+                      sena add any-git-host.com/repo
+                    </code>
+                  </div>
                 </Field>
                 <Field>
                   <FieldLabel>Author</FieldLabel>
