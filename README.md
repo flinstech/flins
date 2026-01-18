@@ -11,6 +11,8 @@ One CLI to install skills from any git repository across all your coding assista
 
 </div>
 
+> **Note:** We're actively improving sena based on real-world usage, and your feedback helps shape future releases. The [Agent Skills](https://agentskills.io) format continues to evolve alongside the AI agent ecosystem.
+
 ## Why sena?
 
 The [Agent Skills](https://agentskills.io) format is an open standard for extending AI agents with new capabilities. **sena** is an open-source CLI that lets you install skills from any git repository to all your skill-compatible coding agents in one command.
