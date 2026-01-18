@@ -359,7 +359,7 @@ export async function listRemovableSkills(): Promise<void> {
 
   if (globalSkills.length > 0) {
     if (localSkills.length > 0) {
-      p.log.message(pc.bold(pc.cyan("Global skills (from ~/.sena/state.json)")));
+      p.log.message(pc.bold(pc.cyan("Global skills (from ~/.sena/skills.lock)")));
     }
     for (const { skillName, state } of globalSkills) {
       p.log.message(`${pc.cyan(skillName)}`);

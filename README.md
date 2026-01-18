@@ -300,10 +300,10 @@ For complete guidance, see [agentskills.io](https://agentskills.io).
 
 sena tracks installed skills for version control:
 
-| Type       | Location             | Purpose                          |
-| ---------- | -------------------- | -------------------------------- |
-| **Local**  | `skills.lock`        | Project-specific (commit to git) |
-| **Global** | `~/.sena/state.json` | Machine-wide installations       |
+| Type       | Location              | Purpose                          |
+| ---------- | --------------------- | -------------------------------- |
+| **Local**  | `./skills.lock`       | Project-specific (commit to git) |
+| **Global** | `~/.sena/skills.lock` | Machine-wide installations       |
 
 ```json
 {

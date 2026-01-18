@@ -6,7 +6,7 @@ import type { AgentType } from "@/types/agents";
 import { isValidSkillInstallation } from "@/utils/validation";
 
 const STATE_DIR = join(homedir(), ".sena");
-const STATE_FILE = join(STATE_DIR, "state.json");
+const STATE_FILE = join(STATE_DIR, "skills.lock");
 
 function ensureStateDir(): void {
   if (!existsSync(STATE_DIR)) {
