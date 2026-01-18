@@ -83,54 +83,51 @@ export const Route = createFileRoute('/')({
   },
   head: () => ({
     meta: [
-      { title: 'flins · Universal Skill Installer for AI Coding Agents' },
+      { title: 'flins · Universal skill and command manager for AI coding agents' },
       {
         name: 'description',
         content:
-          'Universal skill package manager for AI coding agents. Install, manage, and update skills across 15+ AI development tools.',
+          'Install, manage, and update skills and commands across 16+ AI development tools from one unified interface.',
       },
       // Open Graph
       {
         property: 'og:title',
-        content: 'flins · Universal Skill Installer for AI Coding Agents',
+        content: 'flins · Universal skill and command manager for AI coding agents',
       },
       {
         property: 'og:description',
         content:
-          'Universal skill package manager for AI coding agents. Install, manage, and update skills across 15+ AI development tools.',
+          'Install, manage, and update skills and commands across 16+ AI development tools from one unified interface.',
       },
       { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: 'https://flins.website' },
-      { property: 'og:image', content: 'https://flins.website/og-image.png' },
+      { property: 'og:url', content: 'https://flins.tech' },
+      { property: 'og:image', content: 'https://flins.tech/og.png' },
       { property: 'og:site_name', content: 'flins' },
       // Twitter Card
       { name: 'twitter:card', content: 'summary_large_image' },
       {
         name: 'twitter:title',
-        content: 'flins · Universal Skill Installer for AI Coding Agents',
+        content: 'flins · Universal skill and command manager for AI coding agents',
       },
       {
         name: 'twitter:description',
         content:
-          'Universal skill package manager for AI coding agents. Install, manage, and update skills across 15+ AI development tools.',
+          'Install, manage, and update skills and commands across 16+ AI development tools from one unified interface.',
       },
-      {
-        name: 'twitter:image',
-        content: 'https://flins.website/twitter-image.png',
-      },
+      { name: 'twitter:image', content: 'https://flins.tech/og.png' },
       // Additional SEO
       {
         name: 'keywords',
         content:
-          'AI coding agents, Claude Code skills, Cursor skills, Copilot skills, AI developer tools, code assistant, AI skills marketplace, Windsurf skills, Gemini Code Assistant',
+          'AI coding agents, Claude Code skills, Cursor skills, Copilot skills, AI developer tools, code assistant, AI skills marketplace, Windsurf skills, Gemini CLI, agent commands',
       },
-      { name: 'author', content: 'compilecafe' },
+      { name: 'author', content: 'flinstech' },
       { name: 'robots', content: 'index, follow' },
     ],
     links: [
       {
         rel: 'canonical',
-        href: 'https://flins.website',
+        href: 'https://flins.tech',
       },
     ],
     scripts: [
@@ -141,8 +138,8 @@ export const Route = createFileRoute('/')({
           '@type': 'SoftwareApplication',
           name: 'flins',
           description:
-            'Universal skill installer for AI coding agents. Install, manage, and update custom skills across Claude Code, Cursor, Copilot, Gemini, Windsurf, and 12+ more AI development tools.',
-          url: 'https://flins.website',
+            'Universal skill and command manager for AI coding agents. Install, manage, and update skills and commands across Claude Code, Cursor, Copilot, Gemini, Windsurf, and 11+ more AI development tools.',
+          url: 'https://flins.tech',
           applicationCategory: 'DeveloperApplication',
           operatingSystem: 'macOS, Linux, Windows',
           offers: {
@@ -152,13 +149,14 @@ export const Route = createFileRoute('/')({
           },
           author: {
             '@type': 'Organization',
-            name: 'compilecafe',
-            url: 'https://github.com/compilecafe',
+            name: 'flinstech',
+            url: 'https://github.com/flinstech',
           },
           keywords: [
             'AI',
             'coding agents',
             'skills',
+            'commands',
             'Claude Code',
             'Cursor',
             'Copilot',
@@ -219,7 +217,7 @@ function App() {
         <div className="max-w-4xl border-x px-8 mx-auto h-14 flex items-center justify-between">
           <Link to="/">flins</Link>
           <a
-            href="https://github.com/compilecafe/flins"
+            href="https://github.com/flinstech/flins"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -238,11 +236,11 @@ function App() {
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-2 text-center max-w-xl mx-auto">
               <h1 className="text-4xl font-bold">
-                Universal skill package manager for AI coding agents
+                Universal skill and command manager for AI coding agents
               </h1>
               <p>
-                Install, manage, and update skills across 15+ AI development
-                tools from one unified interface
+                Install, manage, and update skills and commands across 16+ AI
+                development tools from one unified interface
               </p>
             </div>
             <div className="flex flex-wrap gap-1 justify-center">
@@ -445,7 +443,7 @@ function App() {
                   variant="outline"
                   render={
                     <a
-                      href="https://github.com/flinstech/flins/blob/main/CONTRIBUTING/SKILLS.md"
+                      href="https://github.com/flinstech/flins/blob/main/CONTRIBUTING_SKILLS.md"
                       target="_blank"
                       rel="noopener noreferrer"
                     />
@@ -525,11 +523,11 @@ function App() {
           <div className="flex flex-col gap-1">
             <Link to="/">flins</Link>
             <p className="text-muted-foreground text-sm">
-              Open-source universal coding AI agent skill enabler
+              Universal skill and command manager for AI coding agents
             </p>
           </div>
           <a
-            href="https://github.com/compilecafe/flins"
+            href="https://github.com/flinstech/flins"
             target="_blank"
             rel="noopener noreferrer"
           >
