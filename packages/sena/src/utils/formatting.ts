@@ -7,7 +7,6 @@ export function showNoSkillsMessage(): void {
   p.log.message(
     `  ${pc.cyan("npx sena@latest <repo> --global")}  # Install globally for all projects`,
   );
-  p.log.message(``);
   p.log.message(`  ${pc.dim("Examples:")}`);
   p.log.message(`    ${pc.cyan("npx sena@latest expo")}  # Install from sena directory`);
   p.log.message(`    ${pc.cyan("npx sena@latest search")}            # Browse available skills`);
