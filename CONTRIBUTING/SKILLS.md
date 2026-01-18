@@ -1,6 +1,6 @@
-# Adding Skills to sena Directory
+# Adding Skills to flins Directory
 
-Thank you for your interest in contributing to the [sena](https://github.com/senahq/sena) curated skills directory! This guide will walk you through the process of adding a new skill to the directory.
+Thank you for your interest in contributing to the [flins](https://github.com/flinstech/flins) curated skills directory! This guide will walk you through the process of adding a new skill to the directory.
 
 ## Overview
 
@@ -117,4 +117,4 @@ Be respectful and constructive in all interactions. We're all working to make th
 
 ---
 
-Thank you for contributing to sena! ???
+Thank you for contributing to flins! ???

@@ -1,22 +1,22 @@
 <div align="center">
 
-# sena
+# flins
 
 **Universal skill package manager for AI coding agents**
 
 Install, manage, and update skills across 15+ AI development tools from a single unified interface.
 
-[![npm version](https://badge.fury.io/js/sena.svg)](https://www.npmjs.org/package/sena)
+[![npm version](https://badge.fury.io/js/flins.svg)](https://www.npmjs.org/package/flins)
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-standard-blue)](https://agentskills.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 </div>
 
-> **Note:** sena is actively evolving alongside the [Agent Skills](https://agentskills.io) format and the AI agent ecosystem. Your feedback helps shape future releases.
+> **Note:** flins is actively evolving alongside the [Agent Skills](https://agentskills.io) format and the AI agent ecosystem. Your feedback helps shape future releases.
 
 ## Overview
 
-**sena** is an open-source CLI that provides a unified interface for managing agent skills across all skill-compatible coding assistants. Inspired by package managers like `pnpm`, sena follows a familiar command pattern while working seamlessly with the [Agent Skills](https://agentskills.io) open standard.
+**flins** is an open-source CLI that provides a unified interface for managing agent skills across all skill-compatible coding assistants. Inspired by package managers like `pnpm`, flins follows a familiar command pattern while working seamlessly with the [Agent Skills](https://agentskills.io) open standard.
 
 ## Supported Agents
 
@@ -41,20 +41,20 @@ All agents support the Agent Skills open standard:
 | ![Goose](https://img.shields.io/badge/Goose-gray)             | ✅     | Full support                     |
 | ![Qoder](https://img.shields.io/badge/Qoder-pink)             | ✅     | Full support                     |
 
-Missing an agent? [Create an issue](https://github.com/senahq/sena/issues)
+Missing an agent? [Create an issue](https://github.com/flinstech/flins/issues)
 
 ## Installation
 
 ```bash
 # Using npx (recommended)
-npx sena add <source>
+npx flins add <source>
 
 # Using bunx
-bunx sena add <source>
+bunx flins add <source>
 
 # Install globally
-npm install -g sena
-sena add <source>
+npm install -g flins
+flins add <source>
 ```
 
 ## Quick Start
@@ -62,20 +62,20 @@ sena add <source>
 ### Install from Directory
 
 ```bash
-# Install a skill by name from the sena directory
-sena add better-auth
+# Install a skill by name from the flins directory
+flins add better-auth
 
 # Install to specific agent
-sena add expo -a claude-code
+flins add expo -a claude-code
 
 # Install globally (available across all projects)
-sena add expo --global
+flins add expo --global
 ```
 
 ### Search & Browse
 
 ```bash
-sena search
+flins search
 ```
 
 Interactive skill browser with filtering, details view, and one-click install.
@@ -84,26 +84,26 @@ Interactive skill browser with filtering, details view, and one-click install.
 
 ```bash
 # GitHub shorthand
-sena add expo/skills
+flins add expo/skills
 
 # Full URL
-sena add https://github.com/expo/skills
+flins add https://github.com/expo/skills
 
 # Specific agent
-sena add expo/skills -a copilot
+flins add expo/skills -a copilot
 
 # List skills without installing
-sena add expo/skills --list
+flins add expo/skills --list
 ```
 
 ## Commands
 
-### `sena add <source>` | `sena a <source>`
+### `flins add <source>` | `flins a <source>`
 
 Install skills from a git repository.
 
 ```bash
-sena add <source> [options]
+flins add <source> [options]
 
 Options:
   -g, --global              Install globally (user-level)
@@ -115,12 +115,12 @@ Options:
   --silent                  Suppress banner and non-error output
 ```
 
-### `sena outdated [skills...]`
+### `flins outdated [skills...]`
 
 Check for available updates.
 
 ```bash
-sena outdated [skills...] [options]
+flins outdated [skills...] [options]
 
 Options:
   -v, --verbose             Show detailed information
@@ -135,12 +135,12 @@ Options:
 | `✗`  | error            | Failed to check (network/repo issue) |
 | `○`  | orphaned         | No valid installations               |
 
-### `sena update [skills...]`
+### `flins update [skills...]`
 
 Update installed skills.
 
 ```bash
-sena update [skills...] [options]
+flins update [skills...] [options]
 
 Options:
   -y, --yes                 Auto-confirm all prompts
@@ -148,12 +148,12 @@ Options:
   --silent                  Suppress banner and output
 ```
 
-### `sena remove [skills...]`
+### `flins remove [skills...]`
 
 Uninstall skills.
 
 ```bash
-sena remove [skills...] [options]
+flins remove [skills...] [options]
 
 Options:
   -y, --yes                 Auto-confirm all prompts
@@ -161,28 +161,28 @@ Options:
   --silent                  Suppress banner and output
 ```
 
-### `sena list`
+### `flins list`
 
 List all installed skills and commands.
 
 ```bash
-sena list
+flins list
 ```
 
-### `sena search`
+### `flins search`
 
 Browse available skills interactively.
 
 ```bash
-sena search
+flins search
 ```
 
-### `sena clean`
+### `flins clean`
 
 Remove orphaned state entries.
 
 ```bash
-sena clean [options]
+flins clean [options]
 
 Options:
   -y, --yes                 Auto-confirm prompts
@@ -195,27 +195,27 @@ Options:
 ### Install specific skills
 
 ```bash
-sena add expo/skills -s pr-reviewer -s test-generator
+flins add expo/skills -s pr-reviewer -s test-generator
 ```
 
 ### Target multiple agents
 
 ```bash
-sena add expo/skills -a claude-code -a copilot -a cursor
+flins add expo/skills -a claude-code -a copilot -a cursor
 ```
 
 ### Install from specific branch
 
 ```bash
 # Branch is saved for future updates
-sena add https://github.com/org/repo/tree/develop
+flins add https://github.com/org/repo/tree/develop
 ```
 
 ### CI/CD automation
 
 ```bash
 # Non-interactive, global installation
-sena add expo/skills -s pr-reviewer -g -a copilot -f
+flins add expo/skills -s pr-reviewer -g -a copilot -f
 ```
 
 ## Where Skills Go
@@ -241,7 +241,7 @@ sena add expo/skills -s pr-reviewer -g -a copilot -f
 
 ## Commands (Experimental) {#commands-experimental}
 
-> **Warning:** The commands feature is highly experimental and subject to change or removal in future releases. Unlike skills which follow the [Agent Skills](https://agentskills.io) open standard, commands have no standard yet. Each agent implements commands differently, and sena's command support may evolve significantly as standards emerge.
+> **Warning:** The commands feature is highly experimental and subject to change or removal in future releases. Unlike skills which follow the [Agent Skills](https://agentskills.io) open standard, commands have no standard yet. Each agent implements commands differently, and flins's command support may evolve significantly as standards emerge.
 
 ### Command Types
 
@@ -332,12 +332,12 @@ For complete guidance, see [agentskills.io](https://agentskills.io).
 
 ## State Management
 
-sena tracks installed skills for version control:
+flins tracks installed skills for version control:
 
-| Type       | Location              | Purpose                          |
-| ---------- | --------------------- | -------------------------------- |
-| **Local**  | `./skills.lock`       | Project-specific (commit to git) |
-| **Global** | `~/.sena/skills.lock` | Machine-wide installations       |
+| Type       | Location               | Purpose                          |
+| ---------- | ---------------------- | -------------------------------- |
+| **Local**  | `./skills.lock`        | Project-specific (commit to git) |
+| **Global** | `~/.flins/skills.lock` | Machine-wide installations       |
 
 ```json
 {
@@ -353,13 +353,13 @@ sena tracks installed skills for version control:
 }
 ```
 
-Commit `skills.lock` for team consistency. New contributors run `sena update` to sync.
+Commit `skills.lock` for team consistency. New contributors run `flins update` to sync.
 
 ## How It Works
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌──────────────────┐
-│   Source    │────▶│    sena     │────▶│  Agent Folders   │
+│   Source    │────▶│    flins     │────▶│  Agent Folders   │
 │  (git repo) │     │   (CLI)     │     │  (installed)     │
 └─────────────┘     └─────────────┘     └──────────────────┘
                           │
@@ -393,27 +393,27 @@ Agents are detected by checking default directories. Manually specify with `-a` 
 
 ## Source Formats
 
-sena supports multiple source formats for installing skills:
+flins supports multiple source formats for installing skills:
 
 ```bash
-# Directory name (looks up in sena directory)
-sena add better-auth
+# Directory name (looks up in flins directory)
+flins add better-auth
 
 # GitHub shorthand
-sena add expo/skills
+flins add expo/skills
 
 # Full GitHub URL
-sena add https://github.com/expo/skills
+flins add https://github.com/expo/skills
 
 # Specific branch
-sena add https://github.com/expo/skills/tree/develop
+flins add https://github.com/expo/skills/tree/develop
 
 # Branch with subpath
-sena add https://github.com/expo/skills/tree/develop/skills/custom
+flins add https://github.com/expo/skills/tree/develop/skills/custom
 
 # GitLab or any git host
-sena add https://gitlab.com/org/repo
-sena add https://example.com/repo.git
+flins add https://gitlab.com/org/repo
+flins add https://example.com/repo.git
 ```
 
 ## Contributing
@@ -422,4 +422,4 @@ Contributions welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-MIT © [sena](https://github.com/senahq)
+MIT © [flins](https://github.com/flinstech)

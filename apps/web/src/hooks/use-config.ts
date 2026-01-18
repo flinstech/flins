@@ -2,13 +2,13 @@ import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
 type Config = {
-  packageManager: "sena" | "npm" | "yarn" | "pnpm" | "bun";
+  packageManager: "flins" | "npm" | "yarn" | "pnpm" | "bun";
   installationType: "cli" | "manual";
 };
 
 const configAtom = atomWithStorage<Config>("config", {
   installationType: "cli",
-  packageManager: "sena",
+  packageManager: "flins",
 });
 
 export function useConfig() {

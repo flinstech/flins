@@ -1,6 +1,6 @@
-# Contributing to sena
+# Contributing to flins
 
-Thanks for wanting to contribute to [sena](https://github.com/senahq/sena)!
+Thanks for wanting to contribute to [flins](https://github.com/flinstech/flins)!
 
 ## Workflow
 
@@ -35,4 +35,4 @@ This prevents wasted work and keeps the codebase consistent.
 
 ---
 
-Be respectful and constructive. We're all working to make sena better!
+Be respectful and constructive. We're all working to make flins better!

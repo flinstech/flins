@@ -10,7 +10,7 @@ export interface UpdateOptions {
 
 export async function updateCommand(skills: string[], options: UpdateOptions) {
   if (!options.silent) {
-    p.intro(pc.bgCyan(pc.black(" sena ")));
+    p.intro(pc.bgCyan(pc.black(" flins ")));
   }
 
   try {

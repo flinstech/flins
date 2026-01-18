@@ -10,7 +10,7 @@ export interface RemoveOptions {
 
 export async function removeCommand(skills: string[], options: RemoveOptions) {
   if (!options.silent) {
-    p.intro(pc.bgCyan(pc.black(" sena ")));
+    p.intro(pc.bgCyan(pc.black(" flins ")));
   }
 
   try {

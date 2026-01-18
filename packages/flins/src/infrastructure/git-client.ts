@@ -4,7 +4,7 @@ import { tmpdir } from "os";
 import { spawn } from "child_process";
 
 export async function cloneRepo(url: string, branch?: string): Promise<string> {
-  const tempDir = join(tmpdir(), `sena-${Date.now()}`);
+  const tempDir = join(tmpdir(), `flins-${Date.now()}`);
 
   const args = ["clone", "--depth", "1"];
   if (branch) {

@@ -7,7 +7,7 @@ import type { AgentType } from "@/types/agents";
 import type { InstallableType } from "@/types/skills";
 import { agents } from "@/core/agents/config";
 
-const STATE_DIR = join(homedir(), ".sena");
+const STATE_DIR = join(homedir(), ".flins");
 const STATE_FILE = join(STATE_DIR, "skills.lock");
 
 function ensureStateDir(): void {

@@ -83,7 +83,7 @@ export const Route = createFileRoute('/')({
   },
   head: () => ({
     meta: [
-      { title: 'sena · Universal Skill Installer for AI Coding Agents' },
+      { title: 'flins · Universal Skill Installer for AI Coding Agents' },
       {
         name: 'description',
         content:
@@ -92,7 +92,7 @@ export const Route = createFileRoute('/')({
       // Open Graph
       {
         property: 'og:title',
-        content: 'sena · Universal Skill Installer for AI Coding Agents',
+        content: 'flins · Universal Skill Installer for AI Coding Agents',
       },
       {
         property: 'og:description',
@@ -100,14 +100,14 @@ export const Route = createFileRoute('/')({
           'Universal skill package manager for AI coding agents. Install, manage, and update skills across 15+ AI development tools.',
       },
       { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: 'https://sena.website' },
-      { property: 'og:image', content: 'https://sena.website/og-image.png' },
-      { property: 'og:site_name', content: 'sena' },
+      { property: 'og:url', content: 'https://flins.website' },
+      { property: 'og:image', content: 'https://flins.website/og-image.png' },
+      { property: 'og:site_name', content: 'flins' },
       // Twitter Card
       { name: 'twitter:card', content: 'summary_large_image' },
       {
         name: 'twitter:title',
-        content: 'sena · Universal Skill Installer for AI Coding Agents',
+        content: 'flins · Universal Skill Installer for AI Coding Agents',
       },
       {
         name: 'twitter:description',
@@ -116,7 +116,7 @@ export const Route = createFileRoute('/')({
       },
       {
         name: 'twitter:image',
-        content: 'https://sena.website/twitter-image.png',
+        content: 'https://flins.website/twitter-image.png',
       },
       // Additional SEO
       {
@@ -130,7 +130,7 @@ export const Route = createFileRoute('/')({
     links: [
       {
         rel: 'canonical',
-        href: 'https://sena.website',
+        href: 'https://flins.website',
       },
     ],
     scripts: [
@@ -139,10 +139,10 @@ export const Route = createFileRoute('/')({
         children: JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'SoftwareApplication',
-          name: 'sena',
+          name: 'flins',
           description:
             'Universal skill installer for AI coding agents. Install, manage, and update custom skills across Claude Code, Cursor, Copilot, Gemini, Windsurf, and 12+ more AI development tools.',
-          url: 'https://sena.website',
+          url: 'https://flins.website',
           applicationCategory: 'DeveloperApplication',
           operatingSystem: 'macOS, Linux, Windows',
           offers: {
@@ -217,9 +217,9 @@ function App() {
     <>
       <header className="border-b">
         <div className="max-w-4xl border-x px-8 mx-auto h-14 flex items-center justify-between">
-          <Link to="/">sena</Link>
+          <Link to="/">flins</Link>
           <a
-            href="https://github.com/compilecafe/sena"
+            href="https://github.com/compilecafe/flins"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -313,12 +313,12 @@ function App() {
             <div className="md:w-70 shrink-0">
               <div className="sticky top-4 space-y-6">
                 <Field>
-                  <FieldLabel>Install sena globally (optional)</FieldLabel>
+                  <FieldLabel>Install flins globally (optional)</FieldLabel>
                   <InputGroup>
                     <InputGroupInput
                       className="font-mono"
                       aria-label="Global install command"
-                      value="npm i -g sena"
+                      value="npm i -g flins"
                       ref={inputRef}
                       readOnly
                       type="text"
@@ -350,17 +350,17 @@ function App() {
                 </Field>
                 <Field>
                   <FieldLabel>Quick install from curated list:</FieldLabel>
-                  <code className="text-xs">sena add expo</code>
+                  <code className="text-xs">flins add expo</code>
                 </Field>
                 <Field>
                   <FieldLabel>Or from any git repository:</FieldLabel>
                   <div className="flex flex-col gap-1">
-                    <code className="text-xs">sena add user/repo</code>
+                    <code className="text-xs">flins add user/repo</code>
                     <code className="text-xs">
-                      sena add gitlab.com/org/skills
+                      flins add gitlab.com/org/skills
                     </code>
                     <code className="text-xs">
-                      sena add any-git-host.com/repo
+                      flins add any-git-host.com/repo
                     </code>
                   </div>
                 </Field>
@@ -445,7 +445,7 @@ function App() {
                   variant="outline"
                   render={
                     <a
-                      href="https://github.com/senahq/sena/blob/main/CONTRIBUTING/SKILLS.md"
+                      href="https://github.com/flinstech/flins/blob/main/CONTRIBUTING/SKILLS.md"
                       target="_blank"
                       rel="noopener noreferrer"
                     />
@@ -523,13 +523,13 @@ function App() {
       <footer className="border-t">
         <div className="max-w-4xl border-x px-8 mx-auto py-4 flex items-center justify-between">
           <div className="flex flex-col gap-1">
-            <Link to="/">sena</Link>
+            <Link to="/">flins</Link>
             <p className="text-muted-foreground text-sm">
               Open-source universal coding AI agent skill enabler
             </p>
           </div>
           <a
-            href="https://github.com/compilecafe/sena"
+            href="https://github.com/compilecafe/flins"
             target="_blank"
             rel="noopener noreferrer"
           >

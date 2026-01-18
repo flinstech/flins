@@ -1,1 +1,0 @@
-# sena cli

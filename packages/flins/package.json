@@ -1,5 +1,5 @@
 {
-  "name": "sena",
+  "name": "flins",
   "version": "0.0.1",
   "description": "Universal skill installer for AI coding agents - Claude, Cursor, Copilot, and more",
   "keywords": [
@@ -13,18 +13,18 @@
     "github-copilot",
     "skills"
   ],
-  "homepage": "https://github.com/senahq/sena#readme",
+  "homepage": "https://github.com/flinstech/flins#readme",
   "bugs": {
-    "url": "https://github.com/senahq/sena/issues"
+    "url": "https://github.com/flinstech/flins/issues"
   },
   "license": "MIT",
-  "author": "sena",
+  "author": "flins",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/senahq/sena.git"
+    "url": "git+https://github.com/flinstech/flins.git"
   },
   "bin": {
-    "sena": "./dist/index.js"
+    "flins": "./dist/index.js"
   },
   "files": [
     "dist",

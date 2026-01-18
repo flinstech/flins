@@ -400,7 +400,7 @@ export async function listRemovableSkills(): Promise<void> {
 
   if (globalSkills.length > 0) {
     if (localSkills.length > 0) {
-      p.log.message(pc.bold(pc.cyan("Global (from ~/.sena/skills.lock)")));
+      p.log.message(pc.bold(pc.cyan("Global (from ~/.flins/skills.lock)")));
     }
     for (const { skillName, installableType } of globalSkills) {
       const typeLabel = installableType === "command" ? pc.yellow("⚡") : pc.green("✓");

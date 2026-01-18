@@ -3,7 +3,7 @@ import pc from "picocolors";
 import { listDirectory, type DirectoryEntry } from "@/services/directory";
 
 export async function searchCommand() {
-  p.intro(pc.bgCyan(pc.black(" sena ")));
+  p.intro(pc.bgCyan(pc.black(" flins ")));
 
   try {
     const spinner = p.spinner();
@@ -49,7 +49,7 @@ export async function searchCommand() {
     });
 
     if (p.isCancel(install) || !install) {
-      p.outro("Install anytime with " + pc.green(`sena add ${entry.name}`));
+      p.outro("Install anytime with " + pc.green(`flins add ${entry.name}`));
       return;
     }
 
@@ -74,5 +74,5 @@ function showEntryDetails(entry: DirectoryEntry) {
 
   p.log.message(`  ${pc.bold("Author:")} ${pc.yellow(entry.author)}`);
   p.log.message(`  ${pc.bold("Source:")} ${pc.dim(entry.source)}`);
-  p.log.message(`  ${pc.dim("Install with:")} ${pc.green(`sena add ${entry.name}`)}`);
+  p.log.message(`  ${pc.dim("Install with:")} ${pc.green(`flins add ${entry.name}`)}`);
 }

@@ -13,7 +13,7 @@ import { cleanCommand, type CleanOptions } from "@/cli/commands/clean";
 const version = packageJson.version;
 
 program
-  .name("sena")
+  .name("flins")
   .description(
     "Universal skill package manager for AI coding agents. Install, manage, and update custom skills across Claude Code, Cursor, Copilot, Gemini, Windsurf, Trae, Factory, Letta, OpenCode, Codex, and 8+ more AI development tools from a single unified interface.",
   )
@@ -77,7 +77,7 @@ program
 
 program
   .command("search")
-  .description("Browse and discover available skills from the sena directory")
+  .description("Browse and discover available skills from the flins directory")
   .action(async () => {
     await searchCommand();
   });

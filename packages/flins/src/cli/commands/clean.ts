@@ -10,7 +10,7 @@ export interface CleanOptions {
 
 export async function cleanCommand(options: CleanOptions = {}) {
   if (!options.silent) {
-    p.intro(pc.bgCyan(pc.black(" sena ")));
+    p.intro(pc.bgCyan(pc.black(" flins ")));
   }
 
   try {

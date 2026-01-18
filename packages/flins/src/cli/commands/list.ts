@@ -3,7 +3,7 @@ import pc from "picocolors";
 import { listRemovableSkills } from "@/services/remove";
 
 export async function listCommand() {
-  p.intro(pc.bgCyan(pc.black(" sena ")));
+  p.intro(pc.bgCyan(pc.black(" flins ")));
 
   try {
     await listRemovableSkills();

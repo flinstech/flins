@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "sena",
+  "name": "flins",
   "keep_vars": true,
   "compatibility_date": "2025-09-02",
   "compatibility_flags": [

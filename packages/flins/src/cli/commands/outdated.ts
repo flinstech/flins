@@ -9,7 +9,7 @@ export interface OutdatedOptions {
 
 export async function outdatedCommand(skills: string[], options: OutdatedOptions = {}) {
   if (!options.silent) {
-    p.intro(pc.bgCyan(pc.black(" sena ")));
+    p.intro(pc.bgCyan(pc.black(" flins ")));
   }
 
   try {

@@ -146,7 +146,11 @@ export async function performInstallation(
     }
 
     if (selectedCommands && selectedCommands.length > 0) {
-      p.log.warn(pc.yellow("Commands may change significantly or be removed - your feedback helps shape future releases"));
+      p.log.warn(
+        pc.yellow(
+          "Commands may change significantly or be removed - your feedback helps shape future releases",
+        ),
+      );
     }
 
     context.spinner.start("Installing...");
@@ -240,8 +244,12 @@ async function selectCommands(commands: Command[], options: Options): Promise<Co
     return null;
   }
 
-  p.log.warn(pc.yellow("⚠ Commands may change significantly or be removed - your feedback helps shape future releases"));
-  p.log.message(pc.dim("See: https://github.com/senahq/sena#commands-experimental"));
+  p.log.warn(
+    pc.yellow(
+      "⚠ Commands may change significantly or be removed - your feedback helps shape future releases",
+    ),
+  );
+  p.log.message(pc.dim("See: https://github.com/senahq/flins#commands-experimental"));
 
   let selectedCommands: Command[] = [];
 
@@ -428,8 +436,12 @@ async function selectAgentsForCommands(
     return availableCommandAgents;
   }
 
-  p.log.warn(pc.yellow("⚠ Commands may work differently across agents or be removed - your feedback helps shape future releases"));
-  p.log.message(pc.dim("https://github.com/senahq/sena#commands-experimental"));
+  p.log.warn(
+    pc.yellow(
+      "⚠ Commands may work differently across agents or be removed - your feedback helps shape future releases",
+    ),
+  );
+  p.log.message(pc.dim("https://github.com/senahq/flins#commands-experimental"));
 
   const agentChoices = availableCommandAgents.map((a) => ({
     value: a,

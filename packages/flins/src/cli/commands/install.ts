@@ -15,7 +15,7 @@ export interface InstallOptions {
 
 export async function installCommand(source: string, options: InstallOptions) {
   if (!options.silent) {
-    p.intro(pc.bgCyan(pc.black(" sena ")));
+    p.intro(pc.bgCyan(pc.black(" flins ")));
   }
 
   try {
@@ -23,7 +23,7 @@ export async function installCommand(source: string, options: InstallOptions) {
 
     if (isDirectoryName(source)) {
       if (!options.silent) {
-        p.log.info(`Looking up "${pc.cyan(source)}" in sena directory...`);
+        p.log.info(`Looking up "${pc.cyan(source)}" in flins directory...`);
       }
       const directorySource = await resolveSourceFromDirectory(source);
 
