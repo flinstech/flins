@@ -7,6 +7,7 @@ import {
   PlusIcon,
   SearchIcon,
   GitPullRequestIcon,
+  ArrowUpRightIcon,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -395,7 +396,23 @@ function App() {
                   </div>
                 </Field>
                 <Field>
-                  <FieldLabel>Available commands:</FieldLabel>
+                  <FieldLabel className="justify-between w-full">
+                    Available commands:
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      render={
+                        <a
+                          href="https://github.com/flinstech/flins?tab=readme-ov-file#cli-commands"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        ></a>
+                      }
+                    >
+                      Learn More
+                      <ArrowUpRightIcon />
+                    </Button>
+                  </FieldLabel>
                   <div className="flex flex-wrap items-center gap-1">
                     <code className="text-xs">flins add</code>
                     <code className="text-xs">·</code>
