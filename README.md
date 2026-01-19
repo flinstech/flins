@@ -37,7 +37,7 @@ flins add <source>
 ## Quick Start
 
 ```bash
-# Install from flins directory (curated skill catalog)
+# Install from flins directory (Browse via `flins search` or https://flins.tech/)
 flins add better-auth
 
 # Install from GitHub
@@ -54,6 +54,8 @@ flins search
 ```
 
 **flins directory** = a curated catalog of popular skills. Browse via `flins search` or https://flins.tech/
+
+> See [Source Formats](#source-formats) below for all supported sources (GitHub, GitLab, Codeberg, etc.)
 
 ## Commands (Experimental)
 
@@ -98,6 +100,31 @@ flins search
 - `-y, --yes` - Auto-confirm all prompts
 - `-f, --force` - Skip all confirmations
 - `--silent` - Suppress non-error output
+
+### Source Formats
+
+```bash
+# Directory name (Browse via `flins search` or https://flins.tech/)
+flins add better-auth
+
+# GitHub shorthand
+flins add expo/skills
+
+# GitHub full URL
+flins add https://github.com/expo/skills
+
+# GitLab
+flins add https://gitlab.com/org/repo
+
+# Codeberg
+flins add https://codeberg.org/user/repo
+
+# Any git repository
+flins add https://example.com/repo.git
+
+# Specific branch
+flins add https://github.com/expo/skills/tree/develop
+```
 
 ## Where Files Go
 
@@ -151,31 +178,6 @@ flins tracks installations via lock files for team consistency:
 | Global | `~/.flins/skills.lock` | Machine-wide installations       |
 
 New contributors run `flins update` to sync.
-
-## Source Formats
-
-```bash
-# Directory name (flins catalog)
-flins add better-auth
-
-# GitHub shorthand
-flins add expo/skills
-
-# GitHub full URL
-flins add https://github.com/expo/skills
-
-# GitLab
-flins add https://gitlab.com/org/repo
-
-# Codeberg
-flins add https://codeberg.org/user/repo
-
-# Any git repository
-flins add https://example.com/repo.git
-
-# Specific branch
-flins add https://github.com/expo/skills/tree/develop
-```
 
 ## Contributing
 
