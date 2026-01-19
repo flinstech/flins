@@ -111,7 +111,7 @@ flins search
 | Trae          | `.trae/skills/<name>/`     | Project-level only                     | —                              | —                                       |
 | Factory Droid | `.factory/skills/<name>/`  | `~/.factory/skills/<name>/`            | `.factory/commands/<name>.md`  | `~/.factory/commands/<name>.md`         |
 | Letta         | `.skills/<name>/`          | `~/.letta/skills/<name>/`              | —                              | —                                       |
-| OpenCode      | `.opencode/skill/<name>/`  | `~/.config/opencode/skill/<name>/`     | `.opencode/commands/<name>.md` | `~/.config/opencode/commands/<name>.md` |
+| OpenCode      | `.opencode/skills/<name>/` | `~/.config/opencode/skills/<name>/`    | `.opencode/commands/<name>.md` | `~/.config/opencode/commands/<name>.md` |
 | Codex         | `.codex/skills/<name>/`    | `~/.codex/skills/<name>/`              | —                              | —                                       |
 | Antigravity   | `.agent/skills/<name>/`    | `~/.gemini/antigravity/skills/<name>/` | —                              | —                                       |
 | Amp           | `.agents/skills/<name>/`   | `~/.config/agents/skills/<name>/`      | —                              | —                                       |

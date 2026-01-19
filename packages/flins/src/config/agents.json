@@ -3,10 +3,10 @@
     "name": "opencode",
     "displayName": "OpenCode",
     "configDir": "~/.config/opencode",
-    "skillsDir": ".opencode/skill",
-    "globalSkillsDir": "~/.config/opencode/skill",
-    "commandsDir": ".opencode/command",
-    "globalCommandsDir": "~/.config/opencode/command"
+    "skillsDir": ".opencode/skills",
+    "globalSkillsDir": "~/.config/opencode/skills",
+    "commandsDir": ".opencode/commands",
+    "globalCommandsDir": "~/.config/opencode/commands"
   },
   "claude-code": {
     "name": "claude-code",
