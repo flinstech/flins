@@ -48,4 +48,4 @@ npx flins@latest search
 
 ## Documentation
 
-For complete documentation, see the [main README](../../README.md).
+For complete documentation, see the [main README](https://github.com/flinstech/flins/?tab=readme-ov-file#flins).
