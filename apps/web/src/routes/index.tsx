@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { GrainGradient } from '@paper-design/shaders-react'
-import { PlusIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { FlinsCommands } from '@/components/flins-command'
 import directory from '../directory.json'
 import { zodValidator } from '@tanstack/zod-adapter'
 import { z } from 'zod'
 import { SUPPORTED_AGENTS } from '@/config/agents'
+import SectionDivider from '@/components/section-divider'
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -156,14 +156,9 @@ function App() {
   return (
     <>
       <main>
-        <div className="max-w-7xl mx-auto border-x border-b flex flex-col relative">
-          <PlusIcon className="absolute text-neutral-300 z-10 top-0 left-0 -translate-x-1/2 -translate-y-1/2" />
-          <PlusIcon className="absolute text-neutral-300 z-10 top-0 right-0 translate-x-1/2 -translate-y-1/2" />
-          <PlusIcon className="absolute text-neutral-300 z-10 bottom-0 left-0 -translate-x-1/2 translate-y-1/2" />
-          <PlusIcon className="absolute text-neutral-300 z-10 bottom-0 right-0 translate-x-1/2 translate-y-1/2" />
-
+        <div className="max-w-7xl md:min-h-160 min-h-dvh h-full py-16 px-8 mx-auto border-x items-start border-b flex flex-col relative">
           <GrainGradient
-            className="aspect-video"
+            className="absolute inset-0"
             colors={['#01413f', '#4ab0b0', '#c6d5d7']}
             colorBack="#000a0f"
             softness={0.7}
@@ -177,66 +172,56 @@ function App() {
             offsetY={0.15}
           />
 
-          <div className="absolute py-16 inset-8 flex flex-col overflow-hidden items-start">
-            <div className="flex flex-col items-start gap-12 mb-20">
-              <div className="flex flex-col text-xs font-mono">
-                <span className="flex gap-2">
-                  <span className="text-cyan-500">pow</span> at
-                  <span className="text-cyan-500">Pow-MacBook-Pro</span>
-                  in
-                  <span className="text-emerald-500">~</span>
-                </span>
-                <span className="flex items-center">
-                  » flins add skill
-                  <div className="w-1 h-3 animate-pulse bg-white"></div>
-                </span>
-              </div>
-              <div className="space-y-4">
-                <h1 className="text-6xl text-zinc-300 max-w-3xl">
-                  One CLI. Every AI agent.
-                </h1>
-                <p className="text-xl text-zinc-400 max-w-2xl">
-                  The universal skill manager for Claude Code, Cursor, Windsurf,
-                  Copilot, and 10+ more AI development tools.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-4 max-w-xl">
-                {SUPPORTED_AGENTS.map((agent) => (
-                  <img
-                    key={agent.name}
-                    className="h-10 grayscale pointer-events-none select-none opacity-50"
-                    src={agent.logo}
-                    alt={`${agent.name} Logo`}
-                  />
-                ))}
-              </div>
+          <div className="flex flex-col items-start gap-12 isolate">
+            <div className="flex flex-col text-xs font-mono">
+              <span className="flex gap-2">
+                <span className="text-cyan-500">pow</span> at
+                <span className="text-cyan-500">Pow-MacBook-Pro</span>
+                in
+                <span className="text-emerald-500">~</span>
+              </span>
+              <span className="flex items-center">
+                » flins add skill
+                <div className="w-1 h-3 animate-pulse bg-white"></div>
+              </span>
+            </div>
+            <div className="space-y-4">
+              <h1 className="text-6xl text-zinc-300 max-w-3xl">
+                One CLI. Every AI agent.
+              </h1>
+              <p className="text-xl text-zinc-400 max-w-2xl">
+                The universal skill manager for Claude Code, Cursor, Windsurf,
+                Copilot, and 10+ more AI development tools.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-4 max-w-xl">
+              {SUPPORTED_AGENTS.map((agent) => (
+                <img
+                  key={agent.name}
+                  className="h-10 grayscale pointer-events-none select-none opacity-50"
+                  src={agent.logo}
+                  alt={`${agent.name} Logo`}
+                />
+              ))}
             </div>
           </div>
         </div>
       </main>
 
-      <div className="border-y">
-        <div className="max-w-7xl mx-auto border-x flex flex-col relative h-20">
-          <PlusIcon className="absolute text-neutral-300 z-10 top-0 left-0 -translate-x-1/2 -translate-y-1/2" />
-          <PlusIcon className="absolute text-neutral-300 z-10 top-0 right-0 translate-x-1/2 -translate-y-1/2" />
-          <PlusIcon className="absolute text-neutral-300 z-10 bottom-0 left-0 -translate-x-1/2 translate-y-1/2" />
-          <PlusIcon className="absolute text-neutral-300 z-10 bottom-0 right-0 translate-x-1/2 translate-y-1/2" />
-        </div>
-      </div>
+      <SectionDivider />
 
-      <div>
+      <section>
         <div className="max-w-7xl mx-auto border-x flex flex-col relative">
-          <PlusIcon className="absolute text-neutral-300 bottom-0 left-0 -translate-x-1/2 translate-y-1/2" />
-          <PlusIcon className="absolute text-neutral-300 bottom-0 right-0 translate-x-1/2 translate-y-1/2" />
-          <div className="grid grid-cols-2 items-center">
-            <div className="flex flex-col items-start gap-4 p-8">
-              <h2 className="text-4xl">Familiar CLI, right out of the box</h2>
-              <p className="max-w-lg text-muted-foreground">
+          <div className="grid lg:grid-cols-2 items-center">
+            <div className="flex flex-col items-start gap-6 p-8">
+              <h2 className="text-5xl">Familiar CLI, right out of the box</h2>
+              <p className="text-muted-foreground text-lg text-balance leading-relaxed">
                 Treat skills like dependencies. Add, update, and remove them
                 using the same commands you already know from your favorite
                 package managers.
               </p>
               <Button
+                size="xl"
                 render={
                   <a
                     href="https://github.com/flinstech/flins?tab=readme-ov-file#flins"
@@ -255,24 +240,14 @@ function App() {
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="border-y">
-        <div className="max-w-7xl mx-auto border-x flex flex-col relative h-20">
-          <PlusIcon className="absolute text-neutral-300 z-10 top-0 left-0 -translate-x-1/2 -translate-y-1/2" />
-          <PlusIcon className="absolute text-neutral-300 z-10 top-0 right-0 translate-x-1/2 -translate-y-1/2" />
-          <PlusIcon className="absolute text-neutral-300 z-10 bottom-0 left-0 -translate-x-1/2 translate-y-1/2" />
-          <PlusIcon className="absolute text-neutral-300 z-10 bottom-0 right-0 translate-x-1/2 translate-y-1/2" />
-        </div>
-      </div>
+      <SectionDivider />
 
-      <div>
+      <section>
         <div className="max-w-7xl mx-auto border-x flex flex-col relative">
-          <PlusIcon className="absolute text-neutral-300 bottom-0 left-0 -translate-x-1/2 translate-y-1/2" />
-          <PlusIcon className="absolute text-neutral-300 bottom-0 right-0 translate-x-1/2 translate-y-1/2" />
-
-          <div className="grid grid-cols-2 items-center">
-            <div className="p-10 relative bg-linear-to-bl from-cyan-600 via-transparent to-cyan-600">
+          <div className="grid lg:grid-cols-2 grid-cols-1 items-center">
+            <div className="p-10 lg:order-1 order-2 relative bg-linear-to-bl from-cyan-600 via-transparent to-cyan-600">
               <div className="bg-background p-8 space-y-2">
                 <div className="flex flex-col -space-y-px">
                   <div className="border flex gap-4 border-zinc-600 border-dashed p-4">
@@ -323,15 +298,18 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col items-start gap-4 p-8">
-              <h2 className="text-4xl">Official skills from teams you trust</h2>
-              <p className="max-w-lg text-muted-foreground">
+            <div className="flex lg:order-2 order-1 flex-col items-start gap-6 p-8">
+              <h2 className="text-5xl">Official skills from teams you trust</h2>
+              <p className="text-muted-foreground text-lg text-balance leading-relaxed">
                 Browse our curated directory of official skills from leading
                 companies and trusted developers in the ecosystem.
               </p>
               <div className="flex items-center gap-2">
-                <Button render={<Link to="/directory" />}>Browse Directory</Button>
+                <Button size="xl" render={<Link to="/directory" />}>
+                  Browse Directory
+                </Button>
                 <Button
+                  size="xl"
                   variant="outline"
                   render={
                     <a
@@ -347,7 +325,7 @@ function App() {
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </>
   )
 }
