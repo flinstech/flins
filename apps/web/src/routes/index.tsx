@@ -166,7 +166,7 @@ function App() {
   return (
     <>
       <main>
-        <div className="max-w-7xl md:min-h-160 min-h-dvh h-full py-16 px-8 mx-auto border-x items-start border-b flex flex-col relative bg-[url('/hero.png')] bg-cover bg-no-repeat">
+        <div className="max-w-7xl md:min-h-160 min-h-dvh h-full py-16 px-8 mx-auto border-x items-start border-b flex flex-col relative bg-[url('/hero.webp')] bg-cover bg-no-repeat">
           <div className="flex flex-col items-start gap-12 isolate">
             <div className="flex flex-col text-xs font-mono">
               <span className="flex gap-2">
