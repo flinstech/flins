@@ -189,8 +189,6 @@ function App() {
   const { skills, categories, searchParams } = Route.useLoaderData()
   const navigate = useNavigate({ from: Route.fullPath })
 
-  const [popoverOpen, setPopoverOpen] = useState(true)
-
   const updateSearch = (params: Partial<typeof searchParams>) => {
     navigate({
       search: (prev) => ({ ...prev, ...params }),
@@ -239,7 +237,7 @@ function App() {
               </p>
             </div>
 
-            <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+            <Popover>
               <PopoverTrigger
                 render={
                   <Button
