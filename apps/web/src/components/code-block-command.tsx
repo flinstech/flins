@@ -21,10 +21,10 @@ export function CodeBlockCommand({
   const tabs = React.useMemo(() => {
     return {
       flins: `flins add ${skill}`,
-      bun: `bunx --bun flins@latest add ${skill}`,
+      bun: `bunx flins add ${skill}`,
       npm: `npx flins@latest add ${skill}`,
-      pnpm: `pnpm dlx flins@latest add ${skill}`,
-      yarn: `yarn dlx flins@latest add ${skill}`,
+      pnpm: `pnpm dlx flins add ${skill}`,
+      yarn: `yarn dlx flins add ${skill}`,
     }
   }, [skill])
 
