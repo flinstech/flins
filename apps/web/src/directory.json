@@ -6,8 +6,7 @@
     "author": "expo",
     "tags": [
       "expo",
-      "react-native",
-      "mobile"
+      "react-native"
     ]
   },
   {
@@ -17,9 +16,7 @@
     "author": "dmmulroy",
     "tags": [
       "cloudflare",
-      "workers",
-      "serverless",
-      "storage"
+      "workers"
     ]
   },
   {
@@ -28,9 +25,7 @@
     "description": "AI agent skills for working with Better Auth authentication framework",
     "author": "better-auth",
     "tags": [
-      "better-auth",
-      "authentication",
-      "security"
+      "better-auth"
     ]
   },
   {
@@ -39,10 +34,7 @@
     "description": "AI agent skills and templates for building production ready apps with Convex. Patterns for queries, mutations, cron jobs, webhooks, migrations, and more",
     "author": "waynesutton",
     "tags": [
-      "convex",
-      "database",
-      "realtime",
-      "backend"
+      "convex"
     ]
   },
   {
@@ -51,10 +43,7 @@
     "description": "React Native optimization best practices from Callstack. Covers JavaScript/React profiling, FPS, re-renders, native iOS/Android profiling, TTI, memory management, and bundle optimization",
     "author": "callstackincubator",
     "tags": [
-      "react-native",
-      "performance",
-      "optimization",
-      "mobile"
+      "react-native"
     ]
   },
   {
@@ -65,9 +54,7 @@
     "tags": [
       "vercel",
       "nextjs",
-      "react",
-      "performance",
-      "deployment"
+      "react"
     ]
   },
   {
@@ -77,8 +64,16 @@
     "author": "sveltejs",
     "tags": [
       "svelte",
-      "sveltekit",
-      "web"
+      "sveltekit"
+    ]
+  },
+  {
+    "name": "elysia",
+    "source": "https://github.com/elysiajs/skills",
+    "description": "Official AI agent skills from the ElysiaJS team for building high-performance TypeScript web APIs with Elysia",
+    "author": "elysiajs",
+    "tags": [
+      "elysia"
     ]
   }
 ]
