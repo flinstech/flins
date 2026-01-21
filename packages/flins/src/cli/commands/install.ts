@@ -41,9 +41,6 @@ export async function installCommand(source: string, options: InstallOptions) {
       }
 
       resolvedSource = directorySource;
-      if (!options.silent) {
-        p.log.success(`Found: ${pc.cyan(resolvedSource)}`);
-      }
     }
 
     const result = await performInstallation(resolvedSource, options);
