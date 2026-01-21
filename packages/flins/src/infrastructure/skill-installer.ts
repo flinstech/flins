@@ -1,19 +1,21 @@
 import { join } from "path";
 import { agents } from "@/core/agents/config";
-import { installSkillFiles, checkSkillInstalled } from "./file-system";
+import { installSkillFiles, installSkillAsSymlink, checkSkillInstalled } from "./file-system";
 import type { Skill } from "@/types/skills";
 import type { AgentType } from "@/types/agents";
 
 export async function installSkillForAgent(
   skill: Skill,
   agent: AgentType,
-  options: { global: boolean },
+  options: { global: boolean; symlink?: boolean },
 ): Promise<{ success: boolean; path: string; originalPath: string; error?: string }> {
   const agentConfig = agents[agent];
   const baseDir = options.global ? agentConfig.globalSkillsDir : agentConfig.skillsDir;
   const targetPath = join(baseDir, skill.name);
 
-  const result = await installSkillFiles(skill.path, targetPath);
+  const result = options.symlink
+    ? await installSkillAsSymlink(skill.path, skill.name, targetPath, { global: options.global })
+    : await installSkillFiles(skill.path, targetPath);
 
   return {
     ...result,

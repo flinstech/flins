@@ -1,13 +1,12 @@
-import { homedir } from "os";
 import { join } from "path";
 import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync } from "fs";
-import { expandHomeDir } from "@/utils/paths";
+import { expandHomeDir, getFlinsHomeDir } from "@/utils/paths";
 import type { StateFile, SkillEntry, SkillInstallation, Dirent } from "@/types/state";
 import type { AgentType } from "@/types/agents";
 import type { InstallableType } from "@/types/skills";
 import { agents } from "@/core/agents/config";
 
-const STATE_DIR = join(homedir(), ".flins");
+const STATE_DIR = getFlinsHomeDir();
 const STATE_FILE = join(STATE_DIR, "skills.lock");
 
 function ensureStateDir(): void {

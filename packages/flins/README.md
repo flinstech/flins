@@ -46,6 +46,12 @@ npx flins@latest search
 | `flins search`   | Interactive skill browser           |
 | `flins clean`    | Remove orphaned state entries       |
 
+## Symlink-First Architecture
+
+By default, flins stores source files in `.agents/` and creates symlinks to each agent's directory. This means one source, multiple agents — no duplicate files.
+
+Use `--no-symlink` to copy files directly instead.
+
 ## Documentation
 
 For complete documentation, see the [main README](https://github.com/flinstech/flins/?tab=readme-ov-file#flins).

@@ -56,7 +56,11 @@ export async function searchCommand() {
     const { installCommand } = await import("@/cli/commands/install");
     await installCommand(entry.name, {});
   } catch (error) {
-    p.log.error(error instanceof Error ? error.message : "Something went wrong. Try again or check your connection.");
+    p.log.error(
+      error instanceof Error
+        ? error.message
+        : "Something went wrong. Try again or check your connection.",
+    );
     p.outro(pc.red("Couldn't load skill directory"));
     process.exit(1);
   }

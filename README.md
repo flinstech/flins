@@ -100,6 +100,7 @@ flins search
 - `-y, --yes` - Auto-confirm all prompts
 - `-f, --force` - Skip all confirmations
 - `--silent` - Suppress non-error output
+- `--no-symlink` - Copy files directly instead of symlinks
 
 ### Source Formats
 
@@ -126,6 +127,32 @@ flins add https://example.com/repo.git
 flins add https://github.com/expo/skills/tree/develop
 ```
 
+## Symlink-First Architecture
+
+By default, flins uses symlinks for efficient skill management:
+
+```
+.agents/                    # Source files (single copy)
+├── skills/
+│   └── better-auth/
+└── commands/
+    └── deploy.md
+
+# Symlinks created for each agent:
+.claude/skills/better-auth   → .agents/skills/better-auth
+.cursor/skills/better-auth   → .agents/skills/better-auth
+.windsurf/skills/better-auth → .agents/skills/better-auth
+.gemini/skills/better-auth   → .agents/skills/better-auth
+.codex/skills/better-auth    → .agents/skills/better-auth
+```
+
+**Benefits:**
+- Single source of truth — update once, reflected everywhere
+- Smaller disk footprint — no duplicate files across agents
+- Easier maintenance — manage all skills from `.agents/`
+
+Use `--no-symlink` to copy files directly instead.
+
 ## Where Files Go
 
 | Agent         | Skills (project)           | Skills (global)                        | Commands (project)             | Commands (global)                       |
@@ -146,6 +173,8 @@ flins add https://github.com/expo/skills/tree/develop
 | Roo Code      | `.roo/skills/<name>/`      | `~/.roo/skills/<name>/`                | —                              | —                                       |
 | Goose         | `.goose/skills/<name>/`    | `~/.config/goose/skills/<name>/`       | —                              | —                                       |
 | Qoder         | `.qoder/skills/<name>/`    | `~/.qoder/skills/<name>/`              | —                              | —                                       |
+
+For global installations, source files are stored in `~/.flins/.agents/skills/` and `~/.flins/.agents/commands/`.
 
 ## Creating Skills
 

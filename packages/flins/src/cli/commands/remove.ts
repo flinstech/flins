@@ -16,7 +16,11 @@ export async function removeCommand(skills: string[], options: RemoveOptions) {
   try {
     await performRemove(skills, options);
   } catch (error) {
-    p.log.error(error instanceof Error ? error.message : "Something went wrong. Try again or check your connection.");
+    p.log.error(
+      error instanceof Error
+        ? error.message
+        : "Something went wrong. Try again or check your connection.",
+    );
     if (!options.silent) {
       p.outro(pc.red("Failed to remove skills"));
     }

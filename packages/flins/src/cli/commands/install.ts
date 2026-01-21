@@ -11,6 +11,7 @@ export interface InstallOptions {
   silent?: boolean;
   skill?: string[];
   list?: boolean;
+  symlink?: boolean;
 }
 
 export async function installCommand(source: string, options: InstallOptions) {
@@ -53,7 +54,11 @@ export async function installCommand(source: string, options: InstallOptions) {
       process.exit(1);
     }
   } catch (error) {
-    p.log.error(error instanceof Error ? error.message : "Something went wrong. Try again or check your connection.");
+    p.log.error(
+      error instanceof Error
+        ? error.message
+        : "Something went wrong. Try again or check your connection.",
+    );
     if (!options.silent) {
       p.outro(pc.red("Installation failed"));
     }

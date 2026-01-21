@@ -1,6 +1,7 @@
 import { mkdir, cp } from "fs/promises";
 import { join, dirname } from "path";
 import { agents } from "@/core/agents/config";
+import { installCommandAsSymlink } from "./file-system";
 import type { Command } from "@/types/commands";
 import type { AgentType } from "@/types/agents";
 
@@ -38,19 +39,24 @@ async function copyCommandFile(
 async function installMarkdownCommand(
   command: Command,
   agent: AgentType,
-  options: { global: boolean },
+  options: { global: boolean; symlink?: boolean },
 ): Promise<{ success: boolean; path: string; error?: string }> {
   const agentConfig = agents[agent];
   const baseDir = options.global ? agentConfig.globalCommandsDir! : agentConfig.commandsDir!;
   const targetPath = join(baseDir, `${command.name}.md`);
 
+  if (options.symlink) {
+    return installCommandAsSymlink(command.path, command.name, targetPath, {
+      global: options.global,
+    });
+  }
   return copyCommandFile(command.path, targetPath);
 }
 
 export async function installCommandForAgent(
   command: Command,
   agent: AgentType,
-  options: { global: boolean },
+  options: { global: boolean; symlink?: boolean },
 ): Promise<{ success: boolean; path: string; originalPath: string; error?: string }> {
   if (!supportsCommands(agent)) {
     return {

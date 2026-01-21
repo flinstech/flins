@@ -360,6 +360,105 @@ function App() {
 
       <section>
         <div className="max-w-7xl mx-auto border-x flex flex-col relative">
+          <div className="grid lg:grid-cols-2 grid-cols-1 items-center">
+            <div className="p-10 lg:order-1 order-2 relative bg-linear-to-bl from-cyan-600 via-transparent to-cyan-600">
+              <div className="bg-background p-8">
+                <pre className="text-sm font-mono leading-relaxed">
+                  <code>
+                    <span className="text-emerald-400">.agents</span>
+                    <span className="text-zinc-400">/</span>
+                    {`
+`}
+                    <span className="text-zinc-400">└─ </span>
+                    <span className="text-emerald-400">skills</span>
+                    <span className="text-zinc-400">/</span>
+                    {`
+`}
+                    <span className="text-zinc-400"> └─ </span>
+                    <span className="text-emerald-400">better-auth</span>
+                    <span className="text-zinc-400">/</span>
+                    <span className="text-cyan-400"> # Source</span>
+                    {`
+
+`}
+                    <span className="text-zinc-500">
+                      # Symlinks point here:
+                    </span>
+                    {`
+
+`}
+                    <span className="text-emerald-400">.claude</span>
+                    <span className="text-zinc-400">/</span>
+                    {`
+`}
+                    <span className="text-zinc-400">└─ </span>
+                    <span className="text-emerald-400">skills</span>
+                    <span className="text-zinc-400">/</span>
+                    {`
+`}
+                    <span className="text-zinc-400"> └─ </span>
+                    <span className="text-emerald-400">better-auth</span>
+                    <span className="text-cyan-400"> # symlink</span>
+                    {`
+`}
+                    <span className="text-emerald-400">.cursor</span>
+                    <span className="text-zinc-400">/</span>
+                    {`
+`}
+                    <span className="text-zinc-400">└─ </span>
+                    <span className="text-emerald-400">skills</span>
+                    <span className="text-zinc-400">/</span>
+                    {`
+`}
+                    <span className="text-zinc-400"> └─ </span>
+                    <span className="text-emerald-400">better-auth</span>
+                    <span className="text-cyan-400"> # symlink</span>
+                    {`
+`}
+                    <span className="text-emerald-400">.codex</span>
+                    <span className="text-zinc-400">/</span>
+                    {`
+`}
+                    <span className="text-zinc-400">└─ </span>
+                    <span className="text-emerald-400">skills</span>
+                    <span className="text-zinc-400">/</span>
+                    {`
+`}
+                    <span className="text-zinc-400"> └─ </span>
+                    <span className="text-emerald-400">better-auth</span>
+                    <span className="text-cyan-400"> # symlink</span>
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div className="flex lg:order-2 order-1 flex-col items-start gap-6 p-8">
+              <h2 className="text-5xl">One folder. Every agent.</h2>
+              <p className="text-muted-foreground text-lg text-balance leading-relaxed">
+                flins uses symlinks by default. Source files live in{' '}
+                <code className="text-cyan-400">.agents/</code> and symlink to
+                each agent's directory. Update once, sync everywhere.
+              </p>
+              <ul className="text-muted-foreground space-y-2">
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald-400">✓</span> Single source of
+                  truth
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald-400">✓</span> No duplicate files
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald-400">✓</span> Easier maintenance
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      <section>
+        <div className="max-w-7xl mx-auto border-x flex flex-col relative">
           <div className="flex flex-col items-center gap-8 p-8 text-center">
             <div className="space-y-4">
               <h2 className="text-4xl">Get started</h2>

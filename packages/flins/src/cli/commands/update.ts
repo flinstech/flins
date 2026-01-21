@@ -16,7 +16,11 @@ export async function updateCommand(skills: string[], options: UpdateOptions) {
   try {
     await performUpdate(skills.length > 0 ? skills : undefined, options);
   } catch (error) {
-    p.log.error(error instanceof Error ? error.message : "Something went wrong. Try again or check your connection.");
+    p.log.error(
+      error instanceof Error
+        ? error.message
+        : "Something went wrong. Try again or check your connection.",
+    );
     if (!options.silent) {
       p.outro(pc.red("Update failed"));
     }

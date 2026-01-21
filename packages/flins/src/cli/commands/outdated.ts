@@ -20,7 +20,11 @@ export async function outdatedCommand(skills: string[], options: OutdatedOptions
       p.outro(pc.green("Done"));
     }
   } catch (error) {
-    p.log.error(error instanceof Error ? error.message : "Something went wrong. Try again or check your connection.");
+    p.log.error(
+      error instanceof Error
+        ? error.message
+        : "Something went wrong. Try again or check your connection.",
+    );
     if (!options.silent) {
       p.outro(pc.red("Failed to check for updates"));
     }

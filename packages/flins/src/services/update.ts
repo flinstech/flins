@@ -518,10 +518,7 @@ export async function cleanOrphaned(
   const spinner = p.spinner();
   spinner.start("Cleaning up...");
 
-  await Promise.all([
-    cleanGlobalOrphanedEntries(),
-    cleanLocalOrphanedEntries(),
-  ]);
+  await Promise.all([cleanGlobalOrphanedEntries(), cleanLocalOrphanedEntries()]);
 
   spinner.stop(pc.green("State cleaned up"));
 }

@@ -1,7 +1,8 @@
-import { mkdir, cp, access, readdir } from "fs/promises";
-import { join } from "path";
+import { mkdir, cp, access, readdir, symlink, rm } from "fs/promises";
+import { join, resolve } from "path";
+import { getSkillsSourceDir, getCommandsSourceDir } from "@/utils/paths";
 
-const EXCLUDE_FILES = new Set(["README.md", "metadata.json"]);
+export const EXCLUDE_FILES = new Set(["README.md", "metadata.json"]);
 
 const isExcluded = (name: string): boolean => {
   if (EXCLUDE_FILES.has(name)) return true;
@@ -9,7 +10,7 @@ const isExcluded = (name: string): boolean => {
   return false;
 };
 
-async function copyDirectory(src: string, dest: string): Promise<void> {
+export async function copyDirectory(src: string, dest: string): Promise<void> {
   await mkdir(dest, { recursive: true });
 
   const entries = await readdir(src, { withFileTypes: true });
@@ -46,6 +47,70 @@ export async function installSkillFiles(
     return {
       success: false,
       path: targetDir,
+      error: error instanceof Error ? error.message : "Unknown error",
+    };
+  }
+}
+
+export async function installSkillAsSymlink(
+  sourceDir: string,
+  skillName: string,
+  targetDir: string,
+  options: { global?: boolean } = {},
+): Promise<{ success: boolean; path: string; error?: string }> {
+  try {
+    const agentsSkillsDir = getSkillsSourceDir(options);
+    const sourceStorePath = join(agentsSkillsDir, skillName);
+
+    await mkdir(agentsSkillsDir, { recursive: true });
+    await rm(sourceStorePath, { recursive: true, force: true });
+    await copyDirectory(sourceDir, sourceStorePath);
+
+    const targetParent = join(targetDir, "..");
+    await mkdir(targetParent, { recursive: true });
+    await rm(targetDir, { recursive: true, force: true });
+    await symlink(resolve(sourceStorePath), targetDir);
+
+    return {
+      success: true,
+      path: targetDir,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      path: targetDir,
+      error: error instanceof Error ? error.message : "Unknown error",
+    };
+  }
+}
+
+export async function installCommandAsSymlink(
+  sourcePath: string,
+  commandName: string,
+  targetPath: string,
+  options: { global?: boolean } = {},
+): Promise<{ success: boolean; path: string; error?: string }> {
+  try {
+    const agentsCommandsDir = getCommandsSourceDir(options);
+    const sourceStorePath = join(agentsCommandsDir, `${commandName}.md`);
+
+    await mkdir(agentsCommandsDir, { recursive: true });
+    await rm(sourceStorePath, { force: true });
+    await cp(sourcePath, sourceStorePath);
+
+    const targetParent = join(targetPath, "..");
+    await mkdir(targetParent, { recursive: true });
+    await rm(targetPath, { force: true });
+    await symlink(resolve(sourceStorePath), targetPath);
+
+    return {
+      success: true,
+      path: targetPath,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      path: targetPath,
       error: error instanceof Error ? error.message : "Unknown error",
     };
   }

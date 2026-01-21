@@ -56,6 +56,7 @@ program
   .option("-y, --yes", "Auto-confirm all prompts (non-interactive mode)")
   .option("-f, --force", "Skip all confirmations")
   .option("--silent", "Suppress banner and non-error output")
+  .option("--no-symlink", "Copy files directly instead of using symlinks (default: symlink)")
   .addHelpText("beforeAll", logo)
   .action(async (source: string, options: InstallOptions) => {
     await installCommand(source, options);
@@ -108,7 +109,7 @@ program
   });
 
 program
-  .command("search")  
+  .command("search")
   .alias("s")
   .description("Browse and discover available skills from the flins directory")
   .addHelpText("beforeAll", logo)
