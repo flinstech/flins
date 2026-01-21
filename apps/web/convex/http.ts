@@ -10,7 +10,12 @@ http.route({
   handler: httpAction(async (ctx, request) => {
     try {
       const body = await request.json();
-      await ctx.runMutation(internal.telemetry.record, body);
+
+      if (Array.isArray(body)) {
+        await ctx.runMutation(internal.telemetry.recordBatch, { events: body });
+      } else {
+        await ctx.runMutation(internal.telemetry.record, body);
+      }
     } catch {}
     return new Response(null, { status: 204 });
   }),

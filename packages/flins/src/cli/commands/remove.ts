@@ -1,6 +1,7 @@
 import * as p from "@clack/prompts";
 import pc from "picocolors";
 import { performRemove } from "@/services/remove";
+import { track } from "@/services/telemetry";
 
 export interface RemoveOptions {
   yes?: boolean;
@@ -14,7 +15,15 @@ export async function removeCommand(skills: string[], options: RemoveOptions) {
   }
 
   try {
-    await performRemove(skills, options);
+    const results = await performRemove(skills, options);
+
+    for (const r of results) {
+      track({
+        command: "remove",
+        name: r.skillName,
+        success: r.success && r.removed > 0,
+      });
+    }
   } catch (error) {
     p.log.error(
       error instanceof Error

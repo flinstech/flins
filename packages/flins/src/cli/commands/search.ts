@@ -1,6 +1,7 @@
 import * as p from "@clack/prompts";
 import pc from "picocolors";
 import { listDirectory, type DirectoryEntry } from "@/services/directory";
+import { track } from "@/services/telemetry";
 
 export async function searchCommand() {
   p.intro(pc.bgCyan(pc.black(" flins ")));
@@ -49,9 +50,12 @@ export async function searchCommand() {
     });
 
     if (p.isCancel(install) || !install) {
+      track({ command: "search", name: selectedName as string });
       p.outro("Install anytime with " + pc.green(`flins add ${entry.name}`));
       return;
     }
+
+    track({ command: "search", name: selectedName as string });
 
     const { installCommand } = await import("@/cli/commands/install");
     await installCommand(entry.name, {});
