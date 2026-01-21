@@ -1,6 +1,7 @@
 import * as p from "@clack/prompts";
 import pc from "picocolors";
 import { checkStatus, displayStatus } from "@/services/update";
+import { track } from "@/services/telemetry";
 
 export interface OutdatedOptions {
   verbose?: boolean;
@@ -16,6 +17,9 @@ export async function outdatedCommand(skills: string[], options: OutdatedOptions
     const results = await checkStatus(skills.length > 0 ? skills : undefined);
     const verbose = options.verbose || skills.length > 0;
     await displayStatus(results, verbose);
+
+    track({ command: "outdated" });
+
     if (!options.silent) {
       p.outro(pc.green("Done"));
     }

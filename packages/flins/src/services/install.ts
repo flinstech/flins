@@ -441,13 +441,6 @@ async function selectAgentsForCommands(
     return availableCommandAgents;
   }
 
-  p.log.warn(
-    pc.yellow(
-      "⚠ Commands may work differently across agents or be removed - your feedback helps shape future releases",
-    ),
-  );
-  p.log.message(pc.dim("https://github.com/senahq/flins#commands-experimental"));
-
   const agentChoices = availableCommandAgents.map((a) => ({
     value: a,
     label: agents[a].displayName,
@@ -539,9 +532,8 @@ async function showSummaryAndConfirm(
     commandsAgents &&
     commandsAgents.length > 0
   ) {
-    p.log.message(pc.bold(pc.yellow("Commands (Experimental)")));
     for (const command of selectedCommands) {
-      p.log.message(`  ${pc.yellow(getCommandDisplayName(command))} ${pc.dim("[experimental]")}`);
+      p.log.message(`  ${pc.yellow(getCommandDisplayName(command))}`);
       for (const agent of commandsAgents) {
         const path = `${agents[agent].commandsDir}/${command.name}.md`;
         p.log.message(`    ${pc.dim("→")} ${agents[agent].displayName}: ${pc.dim(path)}`);
@@ -584,7 +576,10 @@ async function performParallelInstall(
     ),
     ...selectedCommands.flatMap((command) =>
       commandsAgents.map((agent) =>
-        installCommandForAgent(command, agent, { global: installGlobally, symlink }),
+        installCommandForAgent(command, agent, {
+          global: installGlobally,
+          symlink,
+        }),
       ),
     ),
   ];

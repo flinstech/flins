@@ -1,6 +1,7 @@
 import * as p from "@clack/prompts";
 import pc from "picocolors";
 import { cleanOrphaned } from "@/services/update";
+import { track } from "@/services/telemetry";
 
 export interface CleanOptions {
   yes?: boolean;
@@ -15,6 +16,9 @@ export async function cleanCommand(options: CleanOptions = {}) {
 
   try {
     await cleanOrphaned(options);
+
+    track({ command: "clean" });
+
     if (!options.silent) {
       p.outro(pc.green("State cleaned up"));
     }

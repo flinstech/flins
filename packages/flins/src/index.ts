@@ -10,12 +10,19 @@ import { listCommand } from "@/cli/commands/list";
 import { searchCommand } from "@/cli/commands/search";
 import { cleanCommand, type CleanOptions } from "@/cli/commands/clean";
 import { checkForUpdates } from "@/services/update-notifier";
+import { flushSync } from "@/services/telemetry";
 
 let isSilent = false;
 
 program.hook("preAction", (thisCommand) => {
   const opts = thisCommand.opts();
   if (opts.silent) isSilent = true;
+});
+
+process.on("exit", flushSync);
+process.on("SIGINT", () => {
+  flushSync();
+  process.exit(0);
 });
 
 const version = packageJson.version;

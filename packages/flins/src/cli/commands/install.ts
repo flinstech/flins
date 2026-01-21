@@ -2,6 +2,7 @@ import * as p from "@clack/prompts";
 import pc from "picocolors";
 import { performInstallation } from "@/services/install";
 import { isDirectoryName, resolveSourceFromDirectory, listDirectory } from "@/services/directory";
+import { track } from "@/services/telemetry";
 
 export interface InstallOptions {
   global?: boolean;
@@ -45,6 +46,19 @@ export async function installCommand(source: string, options: InstallOptions) {
     }
 
     const result = await performInstallation(resolvedSource, options);
+
+    for (const r of result.results) {
+      const installableType = (r as { installableType?: "skill" | "command" }).installableType;
+      track({
+        command: "add",
+        type: installableType,
+        repo: resolvedSource,
+        name: r.skill,
+        agent: r.agent,
+        scope: options.global ? "global" : "project",
+        success: r.success,
+      });
+    }
 
     if (!result.success && result.installed === 0 && result.failed === 0) {
       process.exit(1);
