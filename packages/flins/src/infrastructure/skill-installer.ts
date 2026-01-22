@@ -1,6 +1,7 @@
 import { join } from "path";
 import { agents } from "@/core/agents/config";
 import { installSkillFiles, installSkillAsSymlink, checkSkillInstalled } from "./file-system";
+import { resolveAgentSkillsDir } from "@/utils/paths";
 import type { Skill } from "@/types/skills";
 import type { AgentType } from "@/types/agents";
 
@@ -10,13 +11,15 @@ export async function installSkillForAgent(
   options: { global: boolean; symlink?: boolean },
 ): Promise<{ success: boolean; path: string; originalPath: string; error?: string }> {
   const agentConfig = agents[agent];
-  const baseDir = options.global ? agentConfig.globalSkillsDir : agentConfig.skillsDir;
+  const baseDir = resolveAgentSkillsDir(
+    options.global ? agentConfig.globalSkillsDir : agentConfig.skillsDir,
+    { global: options.global },
+  );
   const targetPath = join(baseDir, skill.name);
 
   const result = options.symlink
     ? await installSkillAsSymlink(skill.path, skill.name, targetPath, {
         global: options.global,
-        skillsDir: baseDir,
       })
     : await installSkillFiles(skill.path, targetPath);
 
@@ -41,6 +44,9 @@ export function getInstallPath(
   options: { global: boolean },
 ): string {
   const agentConfig = agents[agent];
-  const baseDir = options.global ? agentConfig.globalSkillsDir : agentConfig.skillsDir;
+  const baseDir = resolveAgentSkillsDir(
+    options.global ? agentConfig.globalSkillsDir : agentConfig.skillsDir,
+    { global: options.global },
+  );
   return join(baseDir, skillName);
 }

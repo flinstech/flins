@@ -412,9 +412,7 @@ export async function performUpdate(
   if (successful.length > 0) {
     p.log.success(pc.green(`Updated successfully`));
     for (const r of successful) {
-      p.log.message(
-        `  ${pc.green("✓")} ${pc.cyan(r.skillName)} (${r.updated} ${plural(r.updated, "installation")})`,
-      );
+      p.log.message(`  ${pc.green("✓")} ${pc.cyan(r.skillName)}`);
     }
   }
 

@@ -38,3 +38,23 @@ export function getSkillsSourceDir(options: { global?: boolean; cwd?: string } =
 export function getCommandsSourceDir(options: { global?: boolean; cwd?: string } = {}): string {
   return join(getAgentsSourceDir(options), COMMANDS_DIR);
 }
+
+export function resolveAgentSkillsDir(
+  skillsDir: string,
+  options: { global?: boolean; cwd?: string } = {},
+): string {
+  if (options.global) {
+    return expandHomeDir(skillsDir);
+  }
+  return join(options.cwd || process.cwd(), skillsDir);
+}
+
+export function resolveAgentCommandsDir(
+  commandsDir: string,
+  options: { global?: boolean; cwd?: string } = {},
+): string {
+  if (options.global) {
+    return expandHomeDir(commandsDir);
+  }
+  return join(options.cwd || process.cwd(), commandsDir);
+}

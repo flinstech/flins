@@ -6,11 +6,7 @@ import { discoverSkills } from "@/core/skills/discovery";
 import { discoverCommands } from "@/core/commands/discovery";
 import { getSkillDisplayName } from "@/core/skills/parser";
 import { getCommandDisplayName } from "@/core/commands/parser";
-import {
-  installSkillForAgent,
-  isSkillInstalled,
-  getInstallPath,
-} from "@/infrastructure/skill-installer";
+import { installSkillForAgent } from "@/infrastructure/skill-installer";
 import {
   installCommandForAgent,
   supportsCommands,
@@ -502,25 +498,17 @@ async function showSummaryAndConfirm(
   skillsAgents: AgentType[] | null,
   selectedCommands: Command[] | null,
   commandsAgents: AgentType[] | null,
-  installGlobally: boolean,
+  _installGlobally: boolean,
 ): Promise<boolean> {
   p.log.step(pc.bold("Installation Summary"));
 
   if (selectedSkills && selectedSkills.length > 0 && skillsAgents) {
-    p.log.message(pc.bold(pc.cyan("Skills")));
-    for (const skill of selectedSkills) {
-      p.log.message(`  ${pc.cyan(getSkillDisplayName(skill))}`);
-      for (const agent of skillsAgents) {
-        const path = getInstallPath(skill.name, agent, {
-          global: installGlobally,
-        });
-        const installed = await isSkillInstalled(skill.name, agent, {
-          global: installGlobally,
-        });
-        const status = installed ? pc.yellow(" (will overwrite)") : "";
-        p.log.message(`    ${pc.dim("→")} ${agents[agent].displayName}: ${pc.dim(path)}${status}`);
-      }
-    }
+    p.log.message(
+      pc.bold(pc.cyan("Skills:")) + " " + selectedSkills.map((s) => getSkillDisplayName(s)).join(", "),
+    );
+    p.log.message(
+      pc.bold(pc.cyan("Agents:")) + " " + skillsAgents.map((a) => agents[a].displayName).join(", "),
+    );
   }
 
   if (
@@ -529,13 +517,14 @@ async function showSummaryAndConfirm(
     commandsAgents &&
     commandsAgents.length > 0
   ) {
-    for (const command of selectedCommands) {
-      p.log.message(`  ${pc.yellow(getCommandDisplayName(command))}`);
-      for (const agent of commandsAgents) {
-        const path = `${agents[agent].commandsDir}/${command.name}.md`;
-        p.log.message(`    ${pc.dim("→")} ${agents[agent].displayName}: ${pc.dim(path)}`);
-      }
-    }
+    p.log.message(
+      pc.bold(pc.yellow("Commands:")) +
+        " " +
+        selectedCommands.map((c) => getCommandDisplayName(c)).join(", "),
+    );
+    p.log.message(
+      pc.bold(pc.cyan("Agents:")) + " " + commandsAgents.map((a) => agents[a].displayName).join(", "),
+    );
   }
 
   const autoConfirm = options.yes || options.force;
@@ -687,14 +676,6 @@ async function performParallelInstall(
     }
 
     p.log.success(pc.green(`Successfully installed ${parts.join(" and ")}`));
-    for (const r of successful) {
-      const icon =
-        (r as { installableType?: string }).installableType === "command"
-          ? pc.yellow("⚡")
-          : pc.green("✓");
-      p.log.message(`  ${icon} ${r.skill} → ${r.agent}`);
-      p.log.message(`    ${pc.dim(r.path)}`);
-    }
   }
 
   if (failed.length > 0) {

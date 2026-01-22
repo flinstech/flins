@@ -2,6 +2,7 @@ import { mkdir, cp } from "fs/promises";
 import { join, dirname } from "path";
 import { agents } from "@/core/agents/config";
 import { installCommandAsSymlink } from "./file-system";
+import { resolveAgentCommandsDir } from "@/utils/paths";
 import type { Command } from "@/types/commands";
 import type { AgentType } from "@/types/agents";
 
@@ -42,7 +43,10 @@ async function installMarkdownCommand(
   options: { global: boolean; symlink?: boolean },
 ): Promise<{ success: boolean; path: string; error?: string }> {
   const agentConfig = agents[agent];
-  const baseDir = options.global ? agentConfig.globalCommandsDir! : agentConfig.commandsDir!;
+  const baseDir = resolveAgentCommandsDir(
+    options.global ? agentConfig.globalCommandsDir! : agentConfig.commandsDir!,
+    { global: options.global },
+  );
   const targetPath = join(baseDir, `${command.name}.md`);
 
   if (options.symlink) {
@@ -91,7 +95,10 @@ export async function isCommandInstalled(
   options: { global: boolean },
 ): Promise<boolean> {
   const agentConfig = agents[agent];
-  const baseDir = options.global ? agentConfig.globalCommandsDir! : agentConfig.commandsDir!;
+  const baseDir = resolveAgentCommandsDir(
+    options.global ? agentConfig.globalCommandsDir! : agentConfig.commandsDir!,
+    { global: options.global },
+  );
 
   try {
     await mkdir(baseDir, { recursive: true });
@@ -107,6 +114,9 @@ export function getCommandInstallPath(
   options: { global: boolean },
 ): string {
   const agentConfig = agents[agent];
-  const baseDir = options.global ? agentConfig.globalCommandsDir! : agentConfig.commandsDir!;
+  const baseDir = resolveAgentCommandsDir(
+    options.global ? agentConfig.globalCommandsDir! : agentConfig.commandsDir!,
+    { global: options.global },
+  );
   return join(baseDir, commandName);
 }

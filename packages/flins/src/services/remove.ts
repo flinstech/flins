@@ -212,10 +212,8 @@ export async function performRemove(
 
     if (validInstallations.length > 0) {
       toRemove.push({ skillName, isLocal, installableType, installations: validInstallations });
-      p.log.message(`  ${pc.cyan(skillName)}`);
-      for (const { resolvedPath } of validInstallations) {
-        p.log.message(`    ${pc.dim("→")} ${resolvedPath}`);
-      }
+      const agentNames = validInstallations.map(({ installation }) => agents[installation.agent].displayName);
+      p.log.message(`  ${pc.cyan(skillName)} ${pc.dim(`(${agentNames.join(", ")})`)}`);
     }
   }
 
@@ -259,9 +257,6 @@ export async function performRemove(
     const item = toRemove.find((r) => r.skillName === skillName);
     if (item) {
       p.log.message(`  ${pc.cyan(item.skillName)}`);
-      for (const { resolvedPath } of item.installations) {
-        p.log.message(`    ${pc.dim("→")} ${resolvedPath}`);
-      }
     }
   }
 
@@ -328,7 +323,6 @@ export async function performRemove(
     p.log.success(pc.green(`Removed successfully`));
     for (const r of successful) {
       p.log.message(`  ${pc.green("✓")} ${pc.cyan(r.skillName)}`);
-      p.log.message(`    ${pc.dim(`${r.removed} ${plural(r.removed, "installation")} removed`)}`);
     }
   }
 
@@ -379,10 +373,6 @@ export async function listRemovableSkills(): Promise<void> {
       p.log.message(pc.bold(pc.cyan("Local (from ./skills.lock)")));
     }
     for (const { skillName, installableType } of localSkills) {
-      p.log.message(
-        `${pc.green("✓")} ${pc.cyan(installableType + ":" + skillName)} ${installableType === "command" ? pc.yellow("(experimental)") : ""}`,
-      );
-
       const installations = findLocalSkillInstallations(skillName, installableType);
       const validInstallations = installations
         .map((inst) => ({ installation: inst, resolvedPath: resolveInstallationPath(inst) }))
@@ -390,14 +380,12 @@ export async function listRemovableSkills(): Promise<void> {
           isValidInstallation(resolvedPath, installation.installableType),
         );
 
-      if (validInstallations.length > 0) {
-        p.log.message(`  ${pc.dim("Installed in:")}`);
-        for (const { installation, resolvedPath } of validInstallations) {
-          p.log.message(
-            `    ${pc.dim("•")} ${agents[installation.agent].displayName}: ${pc.dim(resolvedPath)}`,
-          );
-        }
-      }
+      const agentNames = validInstallations.map(({ installation }) => agents[installation.agent].displayName);
+      const typeLabel = installableType === "command" ? pc.yellow("⚡") : pc.green("✓");
+
+      p.log.message(
+        `${typeLabel} ${pc.cyan(skillName)} ${agentNames.length > 0 ? pc.dim(`(${agentNames.join(", ")})`) : ""}`,
+      );
     }
   }
 
@@ -406,9 +394,6 @@ export async function listRemovableSkills(): Promise<void> {
       p.log.message(pc.bold(pc.cyan("Global (from ~/.flins/skills.lock)")));
     }
     for (const { skillName, installableType } of globalSkills) {
-      const typeLabel = installableType === "command" ? pc.yellow("⚡") : pc.green("✓");
-      p.log.message(`${typeLabel} ${pc.cyan(skillName)}`);
-
       const installations = findGlobalSkillInstallations(skillName, installableType);
       const validInstallations = installations
         .map((inst) => ({ installation: inst, resolvedPath: resolveInstallationPath(inst) }))
@@ -416,14 +401,12 @@ export async function listRemovableSkills(): Promise<void> {
           isValidInstallation(resolvedPath, installation.installableType),
         );
 
-      if (validInstallations.length > 0) {
-        p.log.message(`  ${pc.dim("Installed in:")}`);
-        for (const { installation, resolvedPath } of validInstallations) {
-          p.log.message(
-            `    ${pc.dim("•")} ${agents[installation.agent].displayName}: ${pc.dim(resolvedPath)}`,
-          );
-        }
-      }
+      const agentNames = validInstallations.map(({ installation }) => agents[installation.agent].displayName);
+      const typeLabel = installableType === "command" ? pc.yellow("⚡") : pc.green("✓");
+
+      p.log.message(
+        `${typeLabel} ${pc.cyan(skillName)} ${agentNames.length > 0 ? pc.dim(`(${agentNames.join(", ")})`) : ""}`,
+      );
     }
   }
 }
