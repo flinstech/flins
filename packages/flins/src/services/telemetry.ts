@@ -43,7 +43,7 @@ let pendingEvents: TelemetryPayload[] = [];
 
 function extractRepoWithPath(source: string): string {
   const githubMatch = source.match(
-    /github\.com[/:]([^/]+\/[^/]+?)(?:\.git)?(?:\/tree\/[^/]+\/(.+))?(?:[#]|$)/i,
+    /github\.com[/:]([^/]+\/[^/]+?)(?:\.git)?(?:\/tree\/[^/]+\/(.+?))?(?:\/)?(?:[#]|$)/i,
   );
   if (githubMatch) {
     const repo = githubMatch[1]!;
@@ -52,7 +52,7 @@ function extractRepoWithPath(source: string): string {
   }
 
   const gitlabMatch = source.match(
-    /gitlab\.com[/:]([^/]+\/[^/]+?)(?:\.git)?(?:\/-\/tree\/[^/]+\/(.+))?(?:[#]|$)/i,
+    /gitlab\.com[/:]([^/]+\/[^/]+?)(?:\.git)?(?:\/-\/tree\/[^/]+\/(.+?))?(?:\/)?(?:[#]|$)/i,
   );
   if (gitlabMatch) {
     const repo = gitlabMatch[1]!;
@@ -60,14 +60,14 @@ function extractRepoWithPath(source: string): string {
     return subpath ? `${repo}/${subpath}` : repo;
   }
 
-  const shorthandMatch = source.match(/^([^/]+\/[^/]+)(?:\/(.+))?$/);
+  const shorthandMatch = source.match(/^([^/]+\/[^/]+?)(?:\/(.+?))?(?:\/)?$/);
   if (shorthandMatch) {
     const repo = shorthandMatch[1]!;
     const subpath = shorthandMatch[2];
     return subpath ? `${repo}/${subpath}` : repo;
   }
 
-  return source.replace(/\.git$/, "");
+  return source.replace(/\.git$/, "").replace(/\/$/, "");
 }
 
 export function track(event: TelemetryEvent): void {

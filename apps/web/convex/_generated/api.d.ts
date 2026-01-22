@@ -9,6 +9,7 @@
  */
 
 import type * as http from "../http.js";
+import type * as stats from "../stats.js";
 import type * as telemetry from "../telemetry.js";
 
 import type {
@@ -19,6 +20,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   http: typeof http;
+  stats: typeof stats;
   telemetry: typeof telemetry;
 }>;
 

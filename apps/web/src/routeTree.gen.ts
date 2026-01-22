@@ -11,8 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as DirectoryDotjsonRouteImport } from './routes/directory[.]json'
-import { Route as DirectoryRouteImport } from './routes/directory'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DirectoryIndexRouteImport } from './routes/directory.index'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -24,49 +24,49 @@ const DirectoryDotjsonRoute = DirectoryDotjsonRouteImport.update({
   path: '/directory.json',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DirectoryRoute = DirectoryRouteImport.update({
-  id: '/directory',
-  path: '/directory',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DirectoryIndexRoute = DirectoryIndexRouteImport.update({
+  id: '/directory/',
+  path: '/directory/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/directory': typeof DirectoryRoute
   '/directory.json': typeof DirectoryDotjsonRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/directory/': typeof DirectoryIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/directory': typeof DirectoryRoute
   '/directory.json': typeof DirectoryDotjsonRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/directory': typeof DirectoryIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/directory': typeof DirectoryRoute
   '/directory.json': typeof DirectoryDotjsonRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/directory/': typeof DirectoryIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/directory' | '/directory.json' | '/sitemap.xml'
+  fullPaths: '/' | '/directory.json' | '/sitemap.xml' | '/directory/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/directory' | '/directory.json' | '/sitemap.xml'
-  id: '__root__' | '/' | '/directory' | '/directory.json' | '/sitemap.xml'
+  to: '/' | '/directory.json' | '/sitemap.xml' | '/directory'
+  id: '__root__' | '/' | '/directory.json' | '/sitemap.xml' | '/directory/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DirectoryRoute: typeof DirectoryRoute
   DirectoryDotjsonRoute: typeof DirectoryDotjsonRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  DirectoryIndexRoute: typeof DirectoryIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -85,13 +85,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DirectoryDotjsonRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/directory': {
-      id: '/directory'
-      path: '/directory'
-      fullPath: '/directory'
-      preLoaderRoute: typeof DirectoryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -99,14 +92,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/directory/': {
+      id: '/directory/'
+      path: '/directory'
+      fullPath: '/directory/'
+      preLoaderRoute: typeof DirectoryIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DirectoryRoute: DirectoryRoute,
   DirectoryDotjsonRoute: DirectoryDotjsonRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  DirectoryIndexRoute: DirectoryIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
