@@ -61,7 +61,7 @@ export async function searchCommand() {
 
     const { installCommand } = await import("@/cli/commands/install");
     for (const entry of selectedEntries) {
-      await installCommand(entry.name, { yes: true });
+      await installCommand(entry.name, {});
     }
   } catch (error) {
     p.log.error(
