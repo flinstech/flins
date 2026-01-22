@@ -1,5 +1,5 @@
 import { join } from "path";
-import { agents } from "@/core/agents/config";
+import { agents } from "@/config";
 import {
   installSkillFiles,
   copySkillToStorage,

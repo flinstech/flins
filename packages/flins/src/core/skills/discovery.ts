@@ -1,7 +1,7 @@
 import { readdir, readFile, stat } from "fs/promises";
 import { join } from "path";
 import type { Skill } from "@/types/skills";
-import { agents } from "../agents/config";
+import { agents } from "@/config";
 import { SKIP_DIRS } from "@/utils/discovery";
 import { parseSkillMd } from "./parser";
 

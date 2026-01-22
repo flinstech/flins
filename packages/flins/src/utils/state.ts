@@ -1,17 +1,48 @@
 import { join, resolve } from "path";
-import { existsSync, readdirSync, lstatSync } from "fs";
+import { existsSync, readdirSync, lstatSync, type Dirent } from "fs";
 import { expandHomeDir, getFlinsHomeDir } from "@/utils/paths";
-import { skillKey, commandKey, type SkillInstallation, type Dirent } from "@/types/state";
+import type { SkillInstallation } from "@/types/state";
 import type { AgentType } from "@/types/agents";
 import type { InstallableType } from "@/types/skills";
-import { agents } from "@/core/agents/config";
+import { agents } from "@/config";
 
 interface FindInstallationsOptions {
   cwd?: string;
   type: "global" | "project";
 }
 
-export { skillKey, commandKey };
+export function skillKey(name: string): string {
+  return `skill:${name.toLowerCase()}`;
+}
+
+export function commandKey(name: string): string {
+  return `command:${name.toLowerCase()}`;
+}
+
+export function parseKey(
+  key: string,
+): { type: "skill" | "command"; name: string; installableType: InstallableType } | null {
+  const skillPrefix = "skill:";
+  const commandPrefix = "command:";
+
+  if (key.startsWith(skillPrefix)) {
+    return {
+      type: "skill",
+      name: key.slice(skillPrefix.length),
+      installableType: "skill" as const,
+    };
+  }
+
+  if (key.startsWith(commandPrefix)) {
+    return {
+      type: "command",
+      name: key.slice(commandPrefix.length),
+      installableType: "command" as const,
+    };
+  }
+
+  return null;
+}
 
 export function findInstallations(
   skillName: string,

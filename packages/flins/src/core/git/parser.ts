@@ -1,10 +1,6 @@
 import type { ParsedSource } from "@/types/skills";
 
-export function buildFileUrl(
-  parsed: ParsedSource,
-  tempDir: string,
-  filePath: string,
-): string {
+export function buildFileUrl(parsed: ParsedSource, tempDir: string, filePath: string): string {
   const baseUrl = parsed.url.replace(/\.git$/, "");
   const branch = parsed.branch ?? "main";
 

@@ -13,7 +13,7 @@ import {
   getCommandSupportAgents,
 } from "@/infrastructure/command-installer";
 import { detectInstalledAgents } from "@/core/agents/detector";
-import { agents } from "@/core/agents/config";
+import { agents } from "@/config";
 import { addSkill } from "@/core/state/global";
 import { addLocalSkill } from "@/core/state/local";
 import type { Skill, ParsedSource } from "@/types/skills";
@@ -504,7 +504,9 @@ async function showSummaryAndConfirm(
 
   if (selectedSkills && selectedSkills.length > 0 && skillsAgents) {
     p.log.message(
-      pc.bold(pc.cyan("Skills:")) + " " + selectedSkills.map((s) => getSkillDisplayName(s)).join(", "),
+      pc.bold(pc.cyan("Skills:")) +
+        " " +
+        selectedSkills.map((s) => getSkillDisplayName(s)).join(", "),
     );
     p.log.message(
       pc.bold(pc.cyan("Agents:")) + " " + skillsAgents.map((a) => agents[a].displayName).join(", "),
@@ -523,7 +525,9 @@ async function showSummaryAndConfirm(
         selectedCommands.map((c) => getCommandDisplayName(c)).join(", "),
     );
     p.log.message(
-      pc.bold(pc.cyan("Agents:")) + " " + commandsAgents.map((a) => agents[a].displayName).join(", "),
+      pc.bold(pc.cyan("Agents:")) +
+        " " +
+        commandsAgents.map((a) => agents[a].displayName).join(", "),
     );
   }
 

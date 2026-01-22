@@ -12,21 +12,19 @@ import { discoverCommands } from "@/core/commands/discovery";
 import { installSkillForAgent } from "@/infrastructure/skill-installer";
 import { installCommandForAgent } from "@/infrastructure/command-installer";
 import {
-  getAllSkills,
   updateSkillCommit,
   cleanOrphanedEntries as cleanGlobalOrphanedEntries,
   findGlobalSkillInstallations,
   removeSkill,
 } from "@/core/state/global";
 import {
-  getAllLocalSkills,
   findLocalSkillInstallations,
   updateLocalSkillCommit,
   cleanOrphanedEntries as cleanLocalOrphanedEntries,
 } from "@/core/state/local";
-import { parseKey } from "@/types/state";
+import { listTrackedInstallables } from "@/core/state/combined";
 import type { InstallableType } from "@/types/skills";
-import { agents } from "@/core/agents/config";
+import { agents } from "@/config";
 import { isValidInstallation } from "@/utils/validation";
 import { resolveInstallationPath } from "@/utils/paths";
 import { showNoSkillsMessage, plural } from "@/utils/formatting";
@@ -47,67 +45,6 @@ interface UpdateResult {
   updated: number;
   failed: number;
   error?: string;
-}
-
-function getAllSkillsFromBothSources(): Array<{
-  skillName: string;
-  url: string;
-  subpath: string | undefined;
-  branch: string;
-  commit: string;
-  isLocal: boolean;
-  installableType: InstallableType;
-}> {
-  const result: Array<{
-    skillName: string;
-    url: string;
-    subpath: string | undefined;
-    branch: string;
-    commit: string;
-    isLocal: boolean;
-    installableType: InstallableType;
-  }> = [];
-  const seen = new Set<string>();
-
-  const localState = getAllLocalSkills();
-  if (localState) {
-    for (const [key, localEntry] of Object.entries(localState.skills)) {
-      const parsed = parseKey(key);
-      if (parsed) {
-        result.push({
-          skillName: parsed.name,
-          url: localEntry.url,
-          subpath: localEntry.subpath,
-          branch: localEntry.branch,
-          commit: localEntry.commit,
-          isLocal: true,
-          installableType: parsed.installableType,
-        });
-        seen.add(`${parsed.installableType}:${parsed.name.toLowerCase()}`);
-      }
-    }
-  }
-
-  const globalState = getAllSkills();
-  for (const [skillName, skillEntry] of Object.entries(globalState.skills)) {
-    const parsed = parseKey(skillName);
-    const key = parsed
-      ? `${parsed.installableType}:${parsed.name.toLowerCase()}`
-      : skillName.toLowerCase();
-    if (!seen.has(key)) {
-      result.push({
-        skillName: parsed?.name ?? skillName,
-        url: skillEntry.url,
-        subpath: skillEntry.subpath,
-        branch: skillEntry.branch,
-        commit: skillEntry.commit,
-        isLocal: false,
-        installableType: parsed?.installableType ?? "skill",
-      });
-    }
-  }
-
-  return result;
 }
 
 async function checkSkillUpdate(
@@ -169,14 +106,14 @@ async function checkSkillUpdate(
 }
 
 export async function checkStatus(skillNames?: string[]): Promise<StatusResult[]> {
-  const allSkills = getAllSkillsFromBothSources();
+  const allSkills = listTrackedInstallables();
   const results: StatusResult[] = [];
 
   let skillsToCheck: typeof allSkills;
 
   if (skillNames && skillNames.length > 0) {
     const nameSet = new Set(skillNames.map((n) => n.toLowerCase()));
-    skillsToCheck = allSkills.filter(({ skillName }) => nameSet.has(skillName.toLowerCase()));
+    skillsToCheck = allSkills.filter(({ name }) => nameSet.has(name.toLowerCase()));
   } else {
     skillsToCheck = allSkills;
   }
@@ -188,24 +125,17 @@ export async function checkStatus(skillNames?: string[]): Promise<StatusResult[]
   const spinner = p.spinner();
 
   if (skillsToCheck.length === 1) {
-    const { skillName, url, branch, commit, isLocal, installableType } = skillsToCheck[0]!;
-    spinner.start(`Checking ${pc.cyan(skillName)}...`);
-    const result = await checkSkillUpdate(skillName, url, branch, commit, isLocal, installableType);
+    const { name, url, branch, commit, isLocal, installableType } = skillsToCheck[0]!;
+    spinner.start(`Checking ${pc.cyan(name)}...`);
+    const result = await checkSkillUpdate(name, url, branch, commit, isLocal, installableType);
     spinner.stop(
       result.status === "latest" ? pc.green("Up to date") : pc.yellow("Update available"),
     );
     results.push(result);
   } else {
     spinner.start("Checking for updates...");
-    for (const { skillName, url, branch, commit, isLocal, installableType } of skillsToCheck) {
-      const result = await checkSkillUpdate(
-        skillName,
-        url,
-        branch,
-        commit,
-        isLocal,
-        installableType,
-      );
+    for (const { name, url, branch, commit, isLocal, installableType } of skillsToCheck) {
+      const result = await checkSkillUpdate(name, url, branch, commit, isLocal, installableType);
       results.push(result);
     }
     spinner.stop("Check complete");
@@ -218,14 +148,14 @@ export async function performUpdate(
   skillNames?: string[],
   options: { yes?: boolean; force?: boolean; silent?: boolean } = {},
 ): Promise<UpdateResult[]> {
-  const allSkills = getAllSkillsFromBothSources();
+  const allSkills = listTrackedInstallables();
   const results: UpdateResult[] = [];
 
   let skillsToUpdate: typeof allSkills;
 
   if (skillNames && skillNames.length > 0) {
     const nameSet = new Set(skillNames.map((n) => n.toLowerCase()));
-    skillsToUpdate = allSkills.filter(({ skillName }) => nameSet.has(skillName.toLowerCase()));
+    skillsToUpdate = allSkills.filter(({ name }) => nameSet.has(name.toLowerCase()));
   } else {
     skillsToUpdate = allSkills;
   }
@@ -306,19 +236,19 @@ export async function performUpdate(
   const spinner = p.spinner();
   spinner.start("Updating...");
 
-  for (const { skillName, url, subpath, isLocal, installableType } of skillsToUpdate) {
-    const statusResult = statusResults.find((r) => r.skillName === skillName);
+  for (const { name, url, subpath, isLocal, installableType } of skillsToUpdate) {
+    const statusResult = statusResults.find((r) => r.skillName === name);
 
     if (!statusResult || statusResult.status !== "update-available") {
       if (statusResult?.status === "latest") {
-        results.push({ skillName, success: true, updated: 0, failed: 0 });
+        results.push({ skillName: name, success: true, updated: 0, failed: 0 });
       } else {
-        results.push({ skillName, success: false, updated: 0, failed: 0 });
+        results.push({ skillName: name, success: false, updated: 0, failed: 0 });
       }
       continue;
     }
 
-    if (!selectedToUpdate.includes(skillName)) {
+    if (!selectedToUpdate.includes(name)) {
       continue;
     }
 
@@ -334,24 +264,22 @@ export async function performUpdate(
       const skills = await discoverSkills(searchPath);
       const commands = await discoverCommands(searchPath);
 
-      const matchingSkill = skills.find((s) => s.name.toLowerCase() === skillName.toLowerCase());
-      const matchingCommand = commands.find(
-        (c) => c.name.toLowerCase() === skillName.toLowerCase(),
-      );
+      const matchingSkill = skills.find((s) => s.name.toLowerCase() === name.toLowerCase());
+      const matchingCommand = commands.find((c) => c.name.toLowerCase() === name.toLowerCase());
 
       if (!matchingSkill && !matchingCommand) {
         throw new Error("Skill or command not found in repository");
       }
 
       const installations = isLocal
-        ? findLocalSkillInstallations(skillName, installableType)
-        : findGlobalSkillInstallations(skillName, installableType);
+        ? findLocalSkillInstallations(name, installableType)
+        : findGlobalSkillInstallations(name, installableType);
 
       for (const installation of installations) {
         const resolvedPath = resolveInstallationPath(installation);
         if (!isValidInstallation(resolvedPath, installation.installableType)) {
           if (!isLocal) {
-            removeSkill(skillName, installableType);
+            removeSkill(name, installableType);
           }
           continue;
         }
@@ -378,20 +306,20 @@ export async function performUpdate(
       }
 
       if (isLocal) {
-        updateLocalSkillCommit(skillName, installableType, newCommit);
+        updateLocalSkillCommit(name, installableType, newCommit);
       } else {
-        updateSkillCommit(skillName, installableType, newCommit);
+        updateSkillCommit(name, installableType, newCommit);
       }
 
       results.push({
-        skillName,
+        skillName: name,
         success: failedCount === 0,
         updated: updatedCount,
         failed: failedCount,
       });
     } catch (error) {
       results.push({
-        skillName,
+        skillName: name,
         success: false,
         updated: updatedCount,
         failed: failedCount + 1,

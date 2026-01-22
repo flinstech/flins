@@ -41,3 +41,5 @@ export function loadAgentConfig(): Record<AgentType, AgentConfig> {
 
   return config;
 }
+
+export const agents = loadAgentConfig();

@@ -1,46 +1,13 @@
-import { join } from "path";
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from "fs";
-import { getFlinsHomeDir } from "@/utils/paths";
-import type { StateFile, SkillEntry } from "@/types/state";
+import { globalStore } from "./store";
+import type { StateFile, SkillEntry, SkillInstallation } from "@/types/state";
 import type { InstallableType } from "@/types/skills";
-import { skillKey, commandKey, findInstallations } from "@/utils/state";
-
-const STATE_DIR = getFlinsHomeDir();
-const STATE_FILE = join(STATE_DIR, "skills.lock");
-
-function ensureStateDir(): void {
-  if (!existsSync(STATE_DIR)) {
-    mkdirSync(STATE_DIR, { recursive: true });
-  }
-}
 
 export function loadState(): StateFile {
-  ensureStateDir();
-
-  if (!existsSync(STATE_FILE)) {
-    const emptyState: StateFile = {
-      lastUpdate: new Date().toISOString(),
-      skills: {},
-    };
-    writeFileSync(STATE_FILE, JSON.stringify(emptyState, null, 2));
-    return emptyState;
-  }
-
-  try {
-    const content = readFileSync(STATE_FILE, "utf-8");
-    return JSON.parse(content) as StateFile;
-  } catch {
-    return {
-      lastUpdate: new Date().toISOString(),
-      skills: {},
-    };
-  }
+  return globalStore.load() as StateFile;
 }
 
 export function saveState(state: StateFile): void {
-  ensureStateDir();
-  state.lastUpdate = new Date().toISOString();
-  writeFileSync(STATE_FILE, JSON.stringify(state, null, 2));
+  globalStore.save(state);
 }
 
 export function addSkill(
@@ -51,36 +18,18 @@ export function addSkill(
   commit: string,
   installableType: InstallableType = "skill",
 ): { updated: boolean; previousBranch?: string } {
-  const state = loadState();
-  const key = installableType === "skill" ? skillKey(skillName) : commandKey(skillName);
-  const existing = state.skills[key];
-
-  let updated = false;
-  let previousBranch: string | undefined;
-
-  if (existing && existing.branch !== branch) {
-    previousBranch = existing.branch;
-    updated = true;
-  }
-
-  const entry: SkillEntry = {
+  return globalStore.addSkill({
+    name: skillName,
     url,
     subpath,
     branch,
     commit,
-  };
-
-  state.skills[key] = entry;
-  saveState(state);
-  return { updated, previousBranch };
+    installableType,
+  });
 }
 
 export function removeSkill(skillName: string, installableType: InstallableType): void {
-  const state = loadState();
-  const key = installableType === "skill" ? skillKey(skillName) : commandKey(skillName);
-
-  delete state.skills[key];
-  saveState(state);
+  globalStore.removeSkill(skillName, installableType);
 }
 
 export function updateSkillCommit(
@@ -88,55 +37,27 @@ export function updateSkillCommit(
   installableType: InstallableType,
   commit: string,
 ): void {
-  const state = loadState();
-  const key = installableType === "skill" ? skillKey(skillName) : commandKey(skillName);
-
-  if (state.skills[key]) {
-    state.skills[key].commit = commit;
-    saveState(state);
-  }
+  globalStore.updateCommit(skillName, installableType, commit);
 }
 
 export function getSkillEntry(
   skillName: string,
   installableType: InstallableType,
 ): SkillEntry | null {
-  const state = loadState();
-  const key = installableType === "skill" ? skillKey(skillName) : commandKey(skillName);
-
-  return state.skills[key] || null;
+  return globalStore.getEntry(skillName, installableType);
 }
 
 export function getAllSkills(): StateFile {
-  return loadState();
+  return globalStore.getAll() as StateFile;
 }
 
-export function findGlobalSkillInstallations(skillName: string, installableType: InstallableType) {
-  return findInstallations(skillName, installableType, { type: "global" });
+export function findGlobalSkillInstallations(
+  skillName: string,
+  installableType: InstallableType,
+): SkillInstallation[] {
+  return globalStore.findInstallations(skillName, installableType);
 }
 
 export async function cleanOrphanedEntries(): Promise<void> {
-  const state = loadState();
-  const orphanedKeys: string[] = [];
-
-  for (const [key, _entry] of Object.entries(state.skills)) {
-    const parsed = key.split(":");
-    if (parsed.length !== 2) continue;
-
-    const installableType = parsed[0] === "skill" ? "skill" : "command";
-    const name = parsed[1]!;
-    const installations = findGlobalSkillInstallations(name, installableType);
-
-    if (installations.length === 0) {
-      orphanedKeys.push(key);
-    }
-  }
-
-  for (const key of orphanedKeys) {
-    delete state.skills[key];
-  }
-
-  if (orphanedKeys.length > 0) {
-    saveState(state);
-  }
+  return globalStore.cleanOrphanedEntries();
 }

@@ -1,19 +1,18 @@
 import { mkdir, cp } from "fs/promises";
 import { join, dirname } from "path";
-import { agents } from "@/core/agents/config";
+import { agents } from "@/config";
 import { installCommandAsSymlink } from "./file-system";
 import { resolveAgentCommandsDir } from "@/utils/paths";
 import type { Command } from "@/types/commands";
+import { COMMANDS_SUPPORT_AGENTS } from "@/types/commands";
 import type { AgentType } from "@/types/agents";
 
-const COMMANDS_SUPPORT_AGENTS: AgentType[] = ["claude-code", "opencode", "factory"];
-
 export function supportsCommands(agent: AgentType): boolean {
-  return COMMANDS_SUPPORT_AGENTS.includes(agent);
+  return COMMANDS_SUPPORT_AGENTS.includes(agent as (typeof COMMANDS_SUPPORT_AGENTS)[number]);
 }
 
 export function getCommandSupportAgents(): AgentType[] {
-  return COMMANDS_SUPPORT_AGENTS.filter((agent) => agents[agent]?.commandsDir);
+  return [...COMMANDS_SUPPORT_AGENTS].filter((agent) => agents[agent]?.commandsDir);
 }
 
 async function ensureCommandsDir(dir: string): Promise<void> {

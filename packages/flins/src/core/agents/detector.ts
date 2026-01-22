@@ -1,5 +1,5 @@
 import type { AgentType } from "@/types/agents";
-import { agents } from "./config";
+import { agents } from "@/config";
 
 export async function detectInstalledAgents(): Promise<AgentType[]> {
   const installed: AgentType[] = [];
