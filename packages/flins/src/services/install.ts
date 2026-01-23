@@ -315,34 +315,12 @@ async function selectAgentsForSkills(
     `Detected ${installedAgents.length} agent${installedAgents.length !== 1 ? "s" : ""}`,
   );
 
-  if (installedAgents.length === 0) {
-    const autoConfirm = options.yes || options.force;
-    if (autoConfirm) {
-      const allAgents = Object.keys(agents) as AgentType[];
+  if (options.yes || options.force) {
+    if (installedAgents.length === 0) {
+      const allAgentsList = Object.keys(agents) as AgentType[];
       p.log.info("Installing to all agents (none detected)");
-      return allAgents;
-    } else {
-      p.log.warn("No AI tools found. Choose where to install:");
-
-      const allAgentChoices = Object.entries(agents).map(([key, config]) => ({
-        value: key as AgentType,
-        label: config.displayName,
-      }));
-
-      const selected = await p.multiselect({
-        message: "Where should we install these?",
-        options: allAgentChoices,
-        required: true,
-      });
-
-      if (p.isCancel(selected)) {
-        p.cancel("Installation cancelled");
-        return null;
-      }
-
-      return selected as AgentType[];
+      return allAgentsList;
     }
-  } else if (options.yes || options.force) {
     if (installedAgents.length === 1) {
       const firstAgent = installedAgents[0]!;
       p.log.info(`Installing skills to: ${pc.cyan(agents[firstAgent].displayName)}`);
@@ -354,26 +332,30 @@ async function selectAgentsForSkills(
       );
     }
     return installedAgents;
-  } else {
-    const agentChoices = installedAgents.map((a) => ({
-      value: a,
-      label: agents[a].displayName,
-      hint: agents[a].skillsDir,
-    }));
-
-    const selected = await p.multiselect({
-      message: "Where should we install these?",
-      options: agentChoices,
-      required: true,
-    });
-
-    if (p.isCancel(selected)) {
-      p.cancel("Installation cancelled");
-      return null;
-    }
-
-    return selected as AgentType[];
   }
+
+  const allAgentChoices = Object.entries(agents).map(([key, config]) => {
+    const isInstalled = installedAgents.includes(key as AgentType);
+    return {
+      value: key as AgentType,
+      label: config.displayName,
+      hint: isInstalled ? pc.green("installed") : pc.dim("not installed"),
+    };
+  });
+
+  const selected = await p.multiselect({
+    message: "Choose agents to install to",
+    options: allAgentChoices,
+    required: true,
+    initialValues: installedAgents,
+  });
+
+  if (p.isCancel(selected)) {
+    p.cancel("Installation cancelled");
+    return null;
+  }
+
+  return selected as AgentType[];
 }
 
 async function selectAgentsForCommands(
