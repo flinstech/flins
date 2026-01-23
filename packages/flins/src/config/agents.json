@@ -165,5 +165,12 @@
     "installDir": "~/.commandcode",
     "skillsDir": ".commandcode/skills",
     "globalSkillsDir": "~/.commandcode/skills"
+  },
+  "pi": {
+    "name": "pi",
+    "displayName": "Pi",
+    "installDir": "~/.pi",
+    "skillsDir": ".pi/skills",
+    "globalSkillsDir": "~/.pi/agent/skills"
   }
 }

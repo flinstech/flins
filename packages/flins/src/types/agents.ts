@@ -21,7 +21,8 @@ export type AgentType =
   | "openhands"
   | "zencoder"
   | "neovate"
-  | "commandcode";
+  | "commandcode"
+  | "pi";
 
 export interface AgentConfig {
   name: string;

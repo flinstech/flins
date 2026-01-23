@@ -72,4 +72,5 @@ export const SUPPORTED_AGENTS: Agent[] = [
   { name: 'Zencoder', logo: '/brands/zencoder.svg', link: 'https://zencoder.ai/' },
   { name: 'Neovate', logo: '/brands/neovate.svg', link: 'https://neovateai.dev/' },
   { name: 'CommandCode', logo: '/brands/command-code.svg', link: 'https://commandcode.ai/' },
+  { name: 'Pi', logo: '/brands/pi.svg', link: 'https://shittycodingagent.ai/' },
 ]
