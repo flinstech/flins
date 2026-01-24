@@ -145,5 +145,14 @@
       "smart-contracts",
       "static-analysis"
     ]
+  },
+  {
+    "name": "resend",
+    "source": "https://github.com/resend/email-best-practices",
+    "description": "Email development best practices from Resend. Deliverability, HTML email design, authentication (SPF, DKIM, DMARC), testing, and transactional email patterns",
+    "author": "resend",
+    "tags": [
+      "email"
+    ]
   }
 ]
