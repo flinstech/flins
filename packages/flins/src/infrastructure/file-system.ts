@@ -82,6 +82,13 @@ export async function createSkillSymlink(
   const agentsSkillsDir = getSkillsSourceDir(options);
   const sourceStorePath = join(agentsSkillsDir, skillName);
 
+  const normalizedSource = resolve(sourceStorePath);
+  const normalizedTarget = resolve(targetDir);
+
+  if (normalizedSource === normalizedTarget) {
+    return { success: true, path: targetDir };
+  }
+
   return withErrorHandling(async () => {
     const targetParent = join(targetDir, "..");
     await mkdir(targetParent, { recursive: true });
