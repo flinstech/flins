@@ -11,6 +11,7 @@ import { SUPPORTED_AGENTS } from '@/config/agents'
 import SectionDivider from '@/components/section-divider'
 import { allPosts } from 'content-collections'
 import { ArrowRightIcon, CalendarIcon, UserIcon } from 'lucide-react'
+import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard'
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -565,6 +566,10 @@ function App() {
 
       <SectionDivider />
 
+      <SkillEnforcementPromptSection />
+
+      <SectionDivider />
+
       <section>
         <div className="max-w-7xl mx-auto border-x flex flex-col relative">
           <div className="p-8">
@@ -618,10 +623,6 @@ function App() {
           </div>
         </div>
       </section>
-
-      <SectionDivider />
-
-      <SkillEnforcementPromptSection />
 
       <SectionDivider />
 
