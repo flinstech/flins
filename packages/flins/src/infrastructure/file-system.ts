@@ -2,6 +2,7 @@ import { mkdir, cp, readdir, symlink, rm } from "fs/promises";
 import { lstatSync, readlinkSync, rmSync } from "fs";
 import { join, relative, dirname, resolve } from "path";
 import { getSkillsSourceDir, getCommandsSourceDir } from "@/utils/paths";
+import { getSymlinkType, getErrorGuidance, type FsError } from "@/utils/platform";
 
 const EXCLUDE_FILES = new Set(["README.md", "metadata.json"]);
 
@@ -85,7 +86,18 @@ export async function createSkillSymlink(
     const targetParent = join(targetDir, "..");
     await mkdir(targetParent, { recursive: true });
     await rm(targetDir, { recursive: true, force: true });
-    await symlink(relative(targetParent, sourceStorePath), targetDir);
+
+    let entries = [];
+    try {
+      entries = await readdir(sourceStorePath);
+    } catch {
+      entries = [];
+    }
+
+    const isDirectory = entries.length > 0;
+    const symlinkType = getSymlinkType(isDirectory);
+
+    await symlink(relative(targetParent, sourceStorePath), targetDir, symlinkType);
   }, targetDir);
 }
 
@@ -106,7 +118,9 @@ export async function installCommandAsSymlink(
     const targetParent = dirname(targetPath);
     await mkdir(targetParent, { recursive: true });
     await rm(targetPath, { force: true });
-    await symlink(relative(targetParent, sourceStorePath), targetPath);
+
+    const symlinkType = getSymlinkType(false);
+    await symlink(relative(targetParent, sourceStorePath), targetPath, symlinkType);
   }, targetPath);
 }
 
@@ -126,13 +140,31 @@ export async function removeSymlinkSource(
 
     return { success: true };
   } catch (error) {
-    const code = (error as { code?: string })?.code;
+    const fsError = error as FsError;
+    const code = fsError.code;
+
     if (code === "ENOENT" || code === "ENOTDIR") {
       return { success: true };
     }
+
+    if (code === "EACCES" || code === "EPERM") {
+      return {
+        success: false,
+        error: `Permission denied: ${getErrorGuidance(error as Error)}`,
+      };
+    }
+
+    if (code === "EBUSY") {
+      return {
+        success: false,
+        error:
+          "File is in use by another process. Close any applications using this file and try again.",
+      };
+    }
+
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Unknown error",
+      error: getErrorGuidance(error as Error),
     };
   }
 }
