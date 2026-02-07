@@ -4,146 +4,111 @@
     "source": "https://github.com/expo/skills",
     "description": "Official AI agent skills from the Expo team for building, deploying, and debugging robust Expo apps",
     "author": "expo",
-    "tags": [
-      "expo",
-      "react-native"
-    ]
+    "tags": ["expo", "react-native"]
   },
   {
     "name": "cloudflare",
     "source": "https://github.com/cloudflare/skills",
     "description": "Official AI agent skills from Cloudflare for building on Workers, Durable Objects, Agents SDK, and MCP servers. Covers deployment with Wrangler, stateful agents, WebSockets, RPC, SQLite, and web performance auditing",
     "author": "cloudflare",
-    "tags": [
-      "cloudflare",
-      "workers",
-      "mcp",
-      "durable-objects"
-    ]
+    "tags": ["cloudflare", "workers", "mcp", "durable-objects"]
   },
   {
     "name": "better-auth",
     "source": "https://github.com/better-auth/skills",
     "description": "AI agent skills for working with Better Auth authentication framework",
     "author": "better-auth",
-    "tags": [
-      "better-auth"
-    ]
+    "tags": ["better-auth"]
   },
   {
     "name": "convex",
     "source": "https://github.com/waynesutton/convexskills/",
     "description": "AI agent skills and templates for building production ready apps with Convex. Patterns for queries, mutations, cron jobs, webhooks, migrations, and more",
     "author": "waynesutton",
-    "tags": [
-      "convex"
-    ]
+    "tags": ["convex"]
   },
   {
     "name": "react-native",
     "source": "https://github.com/callstackincubator/agent-skills/",
     "description": "React Native optimization best practices from Callstack. Covers JavaScript/React profiling, FPS, re-renders, native iOS/Android profiling, TTI, memory management, and bundle optimization",
     "author": "callstackincubator",
-    "tags": [
-      "react-native"
-    ]
+    "tags": ["react-native"]
   },
   {
     "name": "vercel",
     "source": "https://github.com/vercel-labs/agent-skills/",
     "description": "React and Next.js performance optimization guidelines from Vercel Engineering. Contains 40+ rules across 8 categories, plus web design guidelines and deployment capabilities",
     "author": "vercel-labs",
-    "tags": [
-      "vercel",
-      "nextjs",
-      "react"
-    ]
+    "tags": ["vercel", "nextjs", "react"]
   },
   {
     "name": "svelte",
     "source": "https://github.com/sveltejs/mcp/tree/main/plugins/svelte/skills",
     "description": "Official AI agent skills from the Svelte team for building Svelte applications. Covers SvelteKit, Svelte 5 runes, server-side rendering, and web development best practices",
     "author": "sveltejs",
-    "tags": [
-      "svelte",
-      "sveltekit"
-    ]
+    "tags": ["svelte", "sveltekit"]
   },
   {
     "name": "elysia",
     "source": "https://github.com/elysiajs/skills",
     "description": "Official AI agent skills from the ElysiaJS team for building high-performance TypeScript web APIs with Elysia",
     "author": "elysiajs",
-    "tags": [
-      "elysia"
-    ]
+    "tags": ["elysia"]
   },
   {
     "name": "huggingface",
     "source": "https://github.com/huggingface/skills/",
     "description": "Official AI agent skills from Hugging Face for AI/ML tasks. Dataset creation, model training, evaluation, compute jobs, paper publishing, and experiment tracking",
     "author": "huggingface",
-    "tags": [
-      "huggingface",
-      "machine-learning",
-      "ai",
-      "transformers"
-    ]
+    "tags": ["huggingface", "machine-learning", "ai", "transformers"]
   },
   {
     "name": "remotion",
     "source": "https://github.com/remotion-dev/skills",
     "description": "Official AI agent skills from the Remotion team for building programmatic videos with React",
     "author": "remotion-dev",
-    "tags": [
-      "remotion",
-      "video"
-    ]
+    "tags": ["remotion", "video"]
   },
   {
     "name": "sentry",
     "source": "https://github.com/getsentry/skills",
     "description": "Official AI agent skills from Sentry for development workflows. Code review, commit conventions, PR creation, bug finding, and brand guidelines",
     "author": "getsentry",
-    "tags": [
-      "sentry",
-      "monitoring",
-      "error-tracking"
-    ]
+    "tags": ["sentry", "monitoring", "error-tracking"]
   },
   {
     "name": "marketing",
     "source": "https://github.com/coreyhaines31/marketingskills",
     "description": "Marketing skills for Claude Code and AI agents. CRO, copywriting, SEO, analytics, and growth engineering. Contains 140 proven marketing approaches organized by category",
     "author": "coreyhaines31",
-    "tags": [
-      "marketing",
-      "cro",
-      "copywriting",
-      "seo",
-      "analytics",
-      "growth"
-    ]
+    "tags": ["marketing", "copywriting", "seo"]
   },
   {
     "name": "supabase",
     "source": "https://github.com/supabase/agent-skills",
     "description": "Postgres performance optimization guidelines from Supabase. Contains rules across 8 categories covering query performance, connection management, schema design, concurrency, RLS, and monitoring",
     "author": "supabase",
-    "tags": [
-      "postgresql"
-    ]
+    "tags": ["postgresql"]
   },
   {
     "name": "trailofbits",
     "source": "https://github.com/trailofbits/skills",
     "description": "Official AI agent skills from Trail of Bits for security research and auditing. Smart contract security, static analysis, vulnerability detection, property-based testing, and security workflows",
     "author": "trailofbits",
-    "tags": [
-      "security",
-      "audit",
-      "smart-contracts",
-      "static-analysis"
-    ]
+    "tags": ["security", "smart-contracts", "static-analysis"]
+  },
+  {
+    "name": "stripe",
+    "source": "https://github.com/stripe/ai",
+    "description": "One-stop shop for building AI-powered products and businesses with Stripe. Contains SDKs for integrating Stripe with LLMs and agent frameworks including Agent Toolkit, AI SDK, and Token Meter",
+    "author": "stripe",
+    "tags": ["stripe", "payments"]
+  },
+  {
+    "name": "anthropic",
+    "source": "https://github.com/anthropics/skills",
+    "description": "Official Anthropic skills repository. Contains skills for creative applications, technical tasks, enterprise workflows, and document creation (PDF, DOCX, PPTX, XLSX)",
+    "author": "anthropics",
+    "tags": ["anthropic"]
   }
 ]

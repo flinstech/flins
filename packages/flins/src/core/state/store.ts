@@ -3,6 +3,7 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync, rmSync } from "fs";
 import { getFlinsHomeDir } from "@/utils/paths";
 import type { StateFile, LocalState, SkillEntry, SkillInstallation } from "@/types/state";
 import type { InstallableType } from "@/types/skills";
+import { getErrorGuidance, type FsError } from "@/utils/platform";
 import { skillKey, commandKey, findInstallations } from "@/utils/state";
 
 const STATE_VERSION = "1.0.0";
@@ -62,7 +63,20 @@ function createGlobalStore(): StateStore {
     try {
       const content = readFileSync(statePath, "utf-8");
       return JSON.parse(content) as StateFile;
-    } catch {
+    } catch (error) {
+      const fsError = error as FsError;
+
+      if (fsError.code === "ENOENT") {
+        return {
+          lastUpdate: new Date().toISOString(),
+          skills: {},
+        };
+      }
+
+      console.warn(
+        `Warning: State file corrupted or invalid. Creating new state. Error: ${getErrorGuidance(error as Error)}`,
+      );
+
       return {
         lastUpdate: new Date().toISOString(),
         skills: {},
@@ -192,7 +206,17 @@ function createLocalStoreInternal(cwd?: string): StateStore {
       }
 
       return state;
-    } catch {
+    } catch (error) {
+      const fsError = error as FsError;
+
+      if (fsError.code === "ENOENT") {
+        return null;
+      }
+
+      console.warn(
+        `Warning: Local state file corrupted. Error: ${getErrorGuidance(error as Error)}`,
+      );
+
       return null;
     }
   }

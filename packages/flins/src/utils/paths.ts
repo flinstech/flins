@@ -1,6 +1,7 @@
 import { resolve, join } from "path";
 import { homedir } from "os";
 import type { SkillInstallation } from "@/types/state";
+import { isWindows, getHomeDir } from "./platform";
 
 const FLINS_HOME = ".flins";
 const AGENTS_SOURCE_DIR = ".agents";
@@ -8,9 +9,16 @@ const SKILLS_DIR = "skills";
 const COMMANDS_DIR = "commands";
 
 export function expandHomeDir(path: string): string {
+  const home = getHomeDir();
+
   if (path.startsWith("~")) {
-    return path.replace("~", homedir());
+    return path.replace("~", home);
   }
+
+  if (isWindows() && path.startsWith("%USERPROFILE%")) {
+    return path.replace("%USERPROFILE%", home);
+  }
+
   return path;
 }
 

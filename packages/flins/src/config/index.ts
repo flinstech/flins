@@ -1,6 +1,6 @@
-import { homedir } from "os";
 import { existsSync } from "fs";
 import type { AgentConfig, AgentType } from "@/types/agents";
+import { expandHomeDir } from "@/utils/paths";
 import agentsConfig from "./agents.json" with { type: "json" };
 
 interface AgentConfigEntry {
@@ -12,8 +12,6 @@ interface AgentConfigEntry {
   globalCommandsDir?: string;
   installDir: string;
 }
-
-const home = homedir();
 
 export const DIRECTORY_URL = process.env.DIRECTORY_URL || "https://flins.tech/directory.json";
 
@@ -28,12 +26,14 @@ export function loadAgentConfig(): Record<AgentType, AgentConfig> {
       name: agent.name,
       displayName: agent.displayName,
       skillsDir: agent.skillsDir,
-      globalSkillsDir: agent.globalSkillsDir.replace("~", home),
+      globalSkillsDir: expandHomeDir(agent.globalSkillsDir),
       commandsDir: agent.commandsDir,
-      globalCommandsDir: agent.globalCommandsDir?.replace("~", home),
-      installDir: agent.installDir.replace("~", home),
+      globalCommandsDir: agent.globalCommandsDir
+        ? expandHomeDir(agent.globalCommandsDir)
+        : undefined,
+      installDir: expandHomeDir(agent.installDir),
       detectInstalled: async () => {
-        const installPath = agent.installDir.replace("~", home);
+        const installPath = expandHomeDir(agent.installDir);
         return existsSync(installPath);
       },
     };
