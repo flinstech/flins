@@ -122,7 +122,7 @@ export const Route = createFileRoute('/')({
           author: {
             '@type': 'Organization',
             name: 'flins',
-            url: 'https://github.com/flinstech',
+            url: 'https://github.com/powroom/flins',
           },
           keywords: [
             'agent skills',
@@ -220,7 +220,7 @@ function App() {
                 size="xl"
                 render={
                   <a
-                    href="https://github.com/flinstech/flins?tab=readme-ov-file#flins"
+                    href="https://github.com/powroom/flins?tab=readme-ov-file#flins"
                     target="_blank"
                     rel="noopener noreferrer"
                   />
@@ -309,7 +309,7 @@ function App() {
                   variant="outline"
                   render={
                     <a
-                      href="https://github.com/flinstech/flins/blob/main/CONTRIBUTING_SKILLS.md"
+                      href="https://github.com/powroom/flins/blob/main/CONTRIBUTING_SKILLS.md"
                       target="_blank"
                       rel="noopener noreferrer"
                     />
@@ -339,7 +339,7 @@ function App() {
                 size="xl"
                 render={
                   <a
-                    href="https://github.com/flinstech/flins?tab=readme-ov-file#source-formats"
+                    href="https://github.com/powroom/flins?tab=readme-ov-file#source-formats"
                     target="_blank"
                     rel="noopener noreferrer"
                   />
@@ -578,7 +578,7 @@ function App() {
                 size="xl"
                 render={
                   <a
-                    href="https://github.com/flinstech/flins"
+                    href="https://github.com/powroom/flins"
                     target="_blank"
                     rel="noopener noreferrer"
                   />

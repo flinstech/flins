@@ -123,7 +123,7 @@ export const Route = createFileRoute('/curated/')({
           author: {
             '@type': 'Organization',
             name: 'flins',
-            url: 'https://github.com/flinstech',
+            url: 'https://github.com/powroom/flins',
           },
         }),
       },

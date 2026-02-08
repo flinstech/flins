@@ -13,15 +13,15 @@
     "github-copilot",
     "skills"
   ],
-  "homepage": "https://github.com/flinstech/flins#readme",
+  "homepage": "https://github.com/powroom/flins#readme",
   "bugs": {
-    "url": "https://github.com/flinstech/flins/issues"
+    "url": "https://github.com/powroom/flins/issues"
   },
   "license": "MIT",
   "author": "flins",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/flinstech/flins.git"
+    "url": "git+https://github.com/powroom/flins.git"
   },
   "bin": {
     "flins": "./dist/index.js"

@@ -280,4 +280,4 @@ New contributors run `flins update` to sync.
 
 ## License
 
-MIT © [flins](https://github.com/flinstech)
+MIT © [flins](https://github.com/powroom/flins)

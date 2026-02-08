@@ -14,7 +14,7 @@ Your skill should:
 
 ## How to Submit
 
-Edit [`apps/web/src/directory.json`](https://github.com/flinstech/flins/blob/main/apps/web/src/directory.json) and add your skill:
+Edit [`apps/web/src/directory.json`](https://github.com/powroom/flins/blob/main/apps/web/src/directory.json) and add your skill:
 
 ```json
 {
@@ -52,4 +52,4 @@ Edit [`apps/web/src/directory.json`](https://github.com/flinstech/flins/blob/mai
 
 ---
 
-Questions? [Open an issue](https://github.com/flinstech/flins/issues).
+Questions? [Open an issue](https://github.com/powroom/flins/issues).

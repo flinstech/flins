@@ -30,7 +30,7 @@ const Header = () => {
                 variant="ghost"
                 render={
                   <a
-                    href="https://github.com/flinstech/flins?tab=readme-ov-file#flins"
+                    href="https://github.com/powroom/flins?tab=readme-ov-file#flins"
                     target="_blank"
                     rel="noopener noreferrer"
                   />
@@ -60,7 +60,7 @@ const Header = () => {
               aria-label="View source on GitHub (opens in new tab)"
               render={
                 <a
-                  href="https://github.com/flinstech/flins"
+                  href="https://github.com/powroom/flins"
                   target="_blank"
                   rel="noopener noreferrer"
                 />

@@ -74,4 +74,4 @@ Use `--no-symlink` to copy files directly instead.
 
 ## Documentation
 
-For complete documentation, see the [main README](https://github.com/flinstech/flins/?tab=readme-ov-file#flins).
+For complete documentation, see the [main README](https://github.com/powroom/flins/?tab=readme-ov-file#flins).

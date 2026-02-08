@@ -144,7 +144,7 @@ export const Route = createFileRoute('/discovery/')({
           author: {
             '@type': 'Organization',
             name: 'flins',
-            url: 'https://github.com/flinstech',
+            url: 'https://github.com/powroom/flins',
           },
           keywords: [
             'skills discovery',

@@ -16,7 +16,7 @@ const Footer = () => {
             </p>
           </div>
           <a
-            href="https://github.com/flinstech/flins"
+            href="https://github.com/powroom/flins"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View source on GitHub (opens in new tab)"
