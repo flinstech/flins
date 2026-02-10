@@ -7,6 +7,13 @@
     "tags": ["expo", "react-native"]
   },
   {
+    "name": "google-gemini",
+    "source": "https://github.com/google-gemini/gemini-skills",
+    "description": "AI agent skills for developing Gemini-powered apps. Contains skills for Gemini API, SDK, and model interactions with best practices",
+    "author": "google-gemini",
+    "tags": ["google", "gemini", "ai"]
+  },
+  {
     "name": "cloudflare",
     "source": "https://github.com/cloudflare/skills",
     "description": "Official AI agent skills from Cloudflare for building on Workers, Durable Objects, Agents SDK, and MCP servers. Covers deployment with Wrangler, stateful agents, WebSockets, RPC, SQLite, and web performance auditing",
